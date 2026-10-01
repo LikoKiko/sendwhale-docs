@@ -1,0 +1,283 @@
+---
+title: "SendWhale MCP server tools reference"
+sidebarTitle: "Tools"
+description: "Complete reference for all 11 SendWhale MCP tools: inputs, outputs, read vs. write classification, role requirements, and error behaviour."
+---
+
+The SendWhale MCP server exposes 11 tools for interacting with your workspace. Four tools are read-only and require at minimum the Viewer role. Seven tools perform writes and require Editor, Admin, or Owner role depending on the operation. All tools return a structured response in the format below.
+
+```json
+{
+  "ok": true,
+  "data": { },
+  "error": null
+}
+```
+
+On failure, `ok` is `false`, `data` is `null`, and `error` contains a machine-readable error code. Some errors also include a `details` field with additional context.
+
+---
+
+## Read-only tools
+
+### `list_campaigns`
+
+Lists campaigns in your workspace. Results are paginated. Recipient addresses are never included in list responses.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="page" type="number">
+  Page number to return. Defaults to `1`.
+</ParamField>
+<ParamField body="limit" type="number">
+  Number of results per page. Defaults to the server maximum.
+</ParamField>
+
+**Response `data`:**
+
+<ResponseField name="campaigns" type="Campaign[]">
+  Array of campaign summary objects.
+</ResponseField>
+<ResponseField name="total" type="number">
+  Total number of campaigns in the workspace.
+</ResponseField>
+<ResponseField name="page" type="number">
+  Current page number.
+</ResponseField>
+
+---
+
+### `list_templates`
+
+Lists email templates in your workspace. Results are paginated.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="page" type="number">
+  Page number to return. Defaults to `1`.
+</ParamField>
+<ParamField body="limit" type="number">
+  Number of results per page.
+</ParamField>
+
+**Response `data`:**
+
+<ResponseField name="templates" type="Template[]">
+  Array of template summary objects.
+</ResponseField>
+<ResponseField name="total" type="number">
+  Total number of templates in the workspace.
+</ResponseField>
+<ResponseField name="page" type="number">
+  Current page number.
+</ResponseField>
+
+---
+
+### `list_audiences`
+
+Lists audiences in your workspace. Results are paginated. Contact details and recipient addresses are never returned.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="page" type="number">
+  Page number to return. Defaults to `1`.
+</ParamField>
+<ParamField body="limit" type="number">
+  Number of results per page.
+</ParamField>
+
+**Response `data`:**
+
+<ResponseField name="audiences" type="Audience[]">
+  Array of audience summary objects (name, ID, contact count).
+</ResponseField>
+<ResponseField name="total" type="number">
+  Total number of audiences in the workspace.
+</ResponseField>
+<ResponseField name="page" type="number">
+  Current page number.
+</ResponseField>
+
+---
+
+### `get_campaign`
+
+Retrieves the full details of a single campaign by ID, including content, status, subject, sender, and metadata.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="campaign_id" type="string" required>
+  The ID of the campaign to retrieve.
+</ParamField>
+
+**Response `data`:** a campaign object containing content, status, subject line, sender information, audience reference, and `updated_at`.
+
+---
+
+## Write tools
+
+### `create_audience`
+
+Creates a new, empty audience in your workspace. This tool does not add contacts — it only creates the audience container.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="name" type="string" required>
+  Display name for the new audience.
+</ParamField>
+<ParamField body="description" type="string">
+  Optional description of the audience.
+</ParamField>
+
+**Response `data`:** the created audience object including its new ID.
+
+---
+
+### `create_email_template`
+
+Creates a new email template in your workspace.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="name" type="string" required>
+  Display name for the template.
+</ParamField>
+<ParamField body="subject" type="string" required>
+  Default subject line for the template.
+</ParamField>
+<ParamField body="html_content" type="string" required>
+  Full HTML content of the email template.
+</ParamField>
+
+**Response `data`:** the created template object including its ID and `updated_at`.
+
+---
+
+### `create_campaign_draft`
+
+Creates a new campaign in draft status. This tool never sends or schedules a campaign.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="name" type="string" required>
+  Internal name for the campaign.
+</ParamField>
+<ParamField body="subject" type="string" required>
+  Subject line for the campaign email.
+</ParamField>
+<ParamField body="template_id" type="string">
+  ID of an existing template to attach to this draft.
+</ParamField>
+<ParamField body="audience_id" type="string">
+  ID of the audience to target with this campaign.
+</ParamField>
+
+**Response `data`:** the created campaign draft object, including its ID and `updated_at`. Save `updated_at` — you will need it to call `update_campaign_draft`.
+
+---
+
+### `update_campaign_draft`
+
+Updates an existing campaign draft. You must supply the current `updated_at` value to prevent overwriting concurrent edits. Locked campaigns and campaigns that are not in draft status cannot be modified.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="campaign_id" type="string" required>
+  The ID of the draft campaign to update.
+</ParamField>
+<ParamField body="updated_at" type="string" required>
+  The `updated_at` timestamp from your last read of this campaign. Used as a concurrency guard.
+</ParamField>
+<ParamField body="subject" type="string">
+  Updated subject line.
+</ParamField>
+<ParamField body="html_content" type="string">
+  Updated HTML email content.
+</ParamField>
+
+**Response `data`:** the updated campaign object with a new `updated_at` value.
+
+**Conflict error:** if the `updated_at` you send does not match the current version stored on the server, the tool returns:
+
+```json
+{ "ok": false, "data": null, "error": "conflict" }
+```
+
+Call `get_campaign` to retrieve the latest version, re-apply your changes, and retry.
+
+---
+
+### `remember_brand_fact`
+
+Saves a durable brand fact to your workspace's memory store. Facts persist across sessions and are available to AI clients reading workspace brand context. Requires owner or admin role.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="fact" type="string" required>
+  The brand fact to store (e.g., "Our brand voice is warm, direct, and never uses jargon.").
+</ParamField>
+<ParamField body="category" type="string">
+  Optional category to organise the fact (e.g., `voice`, `design`, `product`).
+</ParamField>
+
+**Response `data`:** the saved memory object including its ID and timestamp.
+
+---
+
+### `update_brand_instructions`
+
+Updates persistent brand instructions for your workspace. These instructions are used as design references or AI directions when generating content. Requires owner or admin role.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="instructions" type="string" required>
+  The updated instruction text.
+</ParamField>
+<ParamField body="type" type="string">
+  Optional instruction type or category (e.g., `design`, `tone`, `layout`).
+</ParamField>
+
+**Response `data`:** the updated instructions record.
+
+---
+
+### `save_image_to_library`
+
+Validates a publicly accessible image URL and copies it into your workspace image library. The URL must be publicly reachable — private IPs, localhost URLs, and URLs requiring authentication are rejected.
+
+<ParamField body="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField body="url" type="string" required>
+  A publicly accessible URL pointing to the image to save.
+</ParamField>
+<ParamField body="name" type="string">
+  Optional display name for the image in the library.
+</ParamField>
+
+**Response `data`:** the saved image object, including the workspace storage URL you can reference in templates.
+
+**Invalid URL error:** if the URL is private, inaccessible, or invalid, the tool returns:
+
+```json
+{ "ok": false, "data": null, "error": "invalid_url" }
+```
+
+Test the URL in a browser before passing it to this tool.
+
+---
+
+<Warning>
+The write tools `create_campaign_draft` and `update_campaign_draft` never send or schedule a campaign. Always open the campaign in SendWhale's UI to complete preflight checks and confirm delivery before any email is sent.
+</Warning>

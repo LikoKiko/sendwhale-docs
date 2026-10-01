@@ -1,0 +1,104 @@
+---
+title: "Read workspace brand context via the brand API"
+sidebarTitle: "Brand Context"
+description: "Use the Brand Context API to read your SendWhale workspace's brand data — voice, colors, fonts, and knowledge — for use in AI tools and integrations."
+---
+
+The Brand Context API lets external tools and AI clients read your workspace's brand data over HTTP. It is designed to give AI assistants, custom integrations, and server-side scripts accurate, up-to-date information about your brand — the same context that Swell, SendWhale's AI campaign assistant, uses when drafting emails on your behalf.
+
+## Endpoint
+
+**Method:** `POST`
+**URL:** `https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent`
+**Authentication:** `Authorization: Bearer <SENDWHALE_BRAND_KEY>`
+
+## Create a brand read key
+
+Brand read keys are created by workspace owners or admins. To create one:
+
+1. Sign in to [SendWhale](https://www.gosendwhale.com/login) and open your workspace **Settings**.
+2. Navigate to **Agent Access**.
+3. Click **Create Key**, give it a descriptive name, and click **Create**.
+4. Copy the key immediately — it is shown only once.
+
+<Warning>
+  Do not use brand read keys in public client-side code, browser bundles, or public repositories. Store them as server-side environment variables (for example, `SENDWHALE_BRAND_KEY`) and access them only from your server or a secured automation environment.
+</Warning>
+
+### Key expiry and rotation
+
+Brand read keys expire after **90 days**. Before a key expires:
+
+1. Create a replacement key in **Settings → Agent Access**.
+2. Update the `SENDWHALE_BRAND_KEY` environment variable in every environment that uses it.
+3. Verify the new key works by making a test request.
+4. Revoke the old key.
+
+Rotating proactively — rather than waiting for a `401` error — prevents disruptions to any integrations that depend on the key.
+
+## Make a request
+
+Include your brand key in the `Authorization` header and your Workspace ID in the request body. Your Workspace ID is available in workspace **Settings → Agent Access**.
+
+```bash
+curl -X POST https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent \
+  -H "Authorization: Bearer $SENDWHALE_BRAND_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"context","workspace_id":"$SENDWHALE_WORKSPACE_ID"}'
+```
+
+### Request body
+
+```json
+{
+  "action": "context",
+  "workspace_id": "<YOUR_WORKSPACE_ID>"
+}
+```
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `action` | string | Yes | Must be `"context"`. |
+| `workspace_id` | string | Yes | The ID of the workspace to read brand context from. |
+
+## What the key can and cannot access
+
+Brand read keys are intentionally scoped to the minimum permissions needed for reading brand data.
+
+**A brand read key can read:**
+- Workspace name and description
+- Brand voice and tone guidelines
+- Brand colors and fonts
+- Logo and visual assets metadata
+- Social media profile links
+- Knowledge base entries and brand facts
+- Skills and preferences stored in the workspace
+
+**A brand read key cannot:**
+- Send mail
+- Read contact lists or subscriber data
+- Create or modify campaigns
+- Access billing or account data
+- Write to the workspace in any way
+
+<Note>
+  This limited scope makes brand read keys safe to use in server-side AI integrations. Even if a key is inadvertently exposed, an attacker cannot use it to send mail, access contacts, or make any changes to your workspace.
+</Note>
+
+## Error codes
+
+| Status | Meaning | Resolution |
+|---|---|---|
+| `401 Unauthorized` | The key is missing, malformed, or has expired. | Revoke the key and create a replacement in **Settings → Agent Access**. |
+| `403 Forbidden` | The key does not have access to this workspace. | Confirm that the key was created within the correct workspace. |
+| `404 Not Found` | The workspace was not found. | Double-check the `workspace_id` value from **Settings → Agent Access**. |
+
+## Use in AI integrations
+
+Once you can read brand context programmatically, common uses include:
+
+- **AI system prompts** — fetch brand context on each request and inject it into your AI model's system prompt to keep responses on-brand.
+- **Local MCP server** — if you use an AI client like Claude Desktop, the [SendWhale MCP server](/developers/mcp/overview) calls this API automatically using your configured credentials, so you do not need to manage it separately.
+- **Content pipelines** — read brand colors and fonts to auto-populate design templates in external tools.
+
+For full request and response field documentation, see the [API Reference](./api-reference).

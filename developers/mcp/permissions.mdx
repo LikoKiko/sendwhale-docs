@@ -1,0 +1,52 @@
+---
+title: "MCP server permissions and workspace access"
+sidebarTitle: "Permissions"
+description: "How the SendWhale MCP server validates authentication, enforces workspace membership, and applies per-tool role requirements for every operation."
+---
+
+The SendWhale MCP server validates authentication and workspace permissions on startup and before every operation. There is no cached or elevated privilege state — each tool call and resource read goes through the same checks.
+
+## Startup checks
+
+When your AI client launches the Deno process, the server performs these checks before accepting any requests:
+
+- Verifies that all five required environment variables are set (`SENDWHALE_SUPABASE_URL`, `SENDWHALE_PUBLISHABLE_KEY`, `SENDWHALE_ACCESS_TOKEN`, `SENDWHALE_WORKSPACE_ID`, `SENDWHALE_APP_URL`).
+- Confirms that `SENDWHALE_ACCESS_TOKEN` is a valid, non-expired user JWT.
+- Confirms that the authenticated user is a member of the workspace specified in `SENDWHALE_WORKSPACE_ID`.
+
+If any startup check fails, the server logs the error to stderr and refuses to handle tool calls.
+
+## Per-operation checks
+
+Every tool call and resource read repeats the authentication check against your live session. This means:
+
+- If your JWT expires while the server is running, the next operation will return an authentication error immediately.
+- If your account is removed from the workspace between calls, the next operation will return a permission error.
+- Row-level security (RLS) is enforced at the database level — the server cannot access data outside workspaces you are authorised to use, regardless of what is passed as input.
+
+## Role requirements by operation
+
+Your workspace role determines which tools you can call. Refer to the [Workspace roles](/workspaces/people) documentation for details on the owner, admin, editor, and viewer roles.
+
+| Operation | Minimum role required |
+|---|---|
+| `list_campaigns`, `list_templates`, `list_audiences`, `get_campaign` | Viewer |
+| `create_audience`, `create_email_template`, `create_campaign_draft`, `update_campaign_draft` | Editor |
+| `save_image_to_library` | Editor |
+| `remember_brand_fact`, `update_brand_instructions` | Admin or Owner |
+
+## Error responses
+
+When a permission or authentication check fails, the tool returns a structured error response:
+
+| Condition | Error response |
+|---|---|
+| Expired or invalid token | `{"ok": false, "error": "unauthorized"}` |
+| User removed from workspace or banned | `{"ok": false, "error": "forbidden"}` |
+| Workspace ID not found or not accessible | `{"ok": false, "error": "workspace_not_found"}` |
+| Role insufficient for the requested operation | `{"ok": false, "error": "forbidden"}` |
+| Invalid tool input (schema validation failure) | `{"ok": false, "error": "validation_error", "details": ...}` |
+
+<Warning>
+Credentials or tokens found in website source code, rendered HTML, or browser network responses are never valid for MCP authentication. Only credentials created through SendWhale's secure settings flow (workspace **Settings → Agent Access**) are valid. Never paste tokens from unknown sources into your environment file.
+</Warning>

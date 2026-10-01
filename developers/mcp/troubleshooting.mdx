@@ -1,0 +1,125 @@
+---
+title: "Troubleshoot the SendWhale MCP server"
+sidebarTitle: "Troubleshooting"
+description: "Diagnose and fix common SendWhale MCP server errors: missing Deno, expired tokens, missing env vars, concurrency conflicts, and stdout corruption."
+---
+
+If the SendWhale MCP server does not appear in your AI client's tool list, or if tool calls are returning errors, use the diagnostics below to identify and resolve the issue. Start by checking your MCP client's stderr output — the server logs startup errors there before accepting any requests.
+
+<Accordion title="Deno not found / wrong path">
+Your AI client cannot launch the MCP server if Deno is not in its PATH or if you have provided an incorrect path to the Deno binary.
+
+**To fix:**
+1. Run `deno --version` in your terminal to confirm Deno is installed and accessible.
+2. If `deno` is not found, install it following the instructions on the [Setup](/developers/mcp/setup) page.
+3. If Deno is installed but your client still cannot find it, use the **absolute path** to the Deno binary in your client config instead of relying on PATH resolution (e.g., `/home/youruser/.deno/bin/deno` on Linux/macOS).
+</Accordion>
+
+<Accordion title="MCP server config not loading">
+Your client config may reference `mcp/stdio.ts` using a relative path. Relative paths fail when the AI client launches the process from a different working directory than you expect.
+
+**To fix:**
+1. Open your client's MCP config file.
+2. Replace any relative path to `mcp/stdio.ts` with the **absolute path** (e.g., `/Users/yourname/projects/sendwhale/mcp/stdio.ts`).
+3. Save the config and restart your AI client.
+</Accordion>
+
+<Accordion title="Missing environment variable">
+The server requires all five environment variables to be set: `SENDWHALE_SUPABASE_URL`, `SENDWHALE_PUBLISHABLE_KEY`, `SENDWHALE_ACCESS_TOKEN`, `SENDWHALE_WORKSPACE_ID`, and `SENDWHALE_APP_URL`. If any are missing, the server will log the variable name to stderr and refuse to start.
+
+**To fix:**
+1. Check stderr output in your MCP client's log view.
+2. Identify which variable is reported as missing.
+3. Add the missing value to the `env` block in your client config or to your `.env` file.
+4. Restart your AI client.
+
+Refer to the [Setup](/developers/mcp/setup) page for instructions on where to find each credential value.
+</Accordion>
+
+<Accordion title="Invalid or expired JWT (SENDWHALE_ACCESS_TOKEN)">
+User JWTs expire when your SendWhale session ends. When this happens, every tool call and resource read returns `{"ok": false, "error": "unauthorized"}`.
+
+**To fix:**
+1. Sign back in to SendWhale at [https://www.gosendwhale.com/login](https://www.gosendwhale.com/login).
+2. Obtain a fresh user JWT from your active session (via your browser's developer tools or SendWhale's session settings).
+3. Update `SENDWHALE_ACCESS_TOKEN` in your env file or client config.
+4. Restart your AI client.
+
+<Warning>
+`SENDWHALE_ACCESS_TOKEN` must be a user JWT from an active session. It is **not** a brand read key or service-role key. The MCP server does not refresh tokens automatically — you must update this value yourself each time your session expires.
+</Warning>
+</Accordion>
+
+<Accordion title="Workspace access denied">
+If your user account is not a member of the workspace specified in `SENDWHALE_WORKSPACE_ID`, all operations will return `{"ok": false, "error": "workspace_not_found"}` or `{"ok": false, "error": "forbidden"}`.
+
+**To fix:**
+1. Open SendWhale and go to workspace **Settings → Members** to confirm your account is listed.
+2. Go to workspace **Settings → Agent Access** to confirm you are using the correct workspace ID.
+3. Update `SENDWHALE_WORKSPACE_ID` in your env file or client config if necessary.
+4. Restart your AI client.
+</Accordion>
+
+<Accordion title="Schema validation failure">
+A tool was called with an invalid or incomplete input. The response will be:
+
+```json
+{ "ok": false, "error": "validation_error", "details": { ... } }
+```
+
+**To fix:**
+1. Read the `details` field to identify which input field failed validation.
+2. Refer to the [Tools](/developers/mcp/tools) reference to confirm the correct input shape for that tool.
+3. You can also read `sendwhale://docs/schemas` via the MCP resource interface for the full JSON schema.
+4. Correct the input and retry the call.
+</Accordion>
+
+<Accordion title="Concurrent edit conflict on update_campaign_draft">
+`update_campaign_draft` uses the `updated_at` field as a concurrency guard. If another session or team member has modified the campaign since your last read, your update will be rejected with:
+
+```json
+{ "ok": false, "error": "conflict" }
+```
+
+**To fix:**
+1. Call `get_campaign` with the same `campaign_id` to retrieve the latest version and its current `updated_at`.
+2. Re-apply your intended changes on top of the fresh data.
+3. Retry `update_campaign_draft` with the updated `updated_at` value.
+</Accordion>
+
+<Accordion title="save_image_to_library rejects URL">
+`save_image_to_library` requires a publicly accessible image URL. It rejects URLs that point to private IP addresses, localhost, or resources that require authentication.
+
+**To fix:**
+1. Test the URL directly in a browser without being signed in — if the image does not load, it is not publicly accessible.
+2. Ensure the URL uses HTTPS and points to a valid image MIME type (JPEG, PNG, GIF, WebP, etc.).
+3. Do not use localhost, `127.0.0.1`, or any private network address.
+4. If the image is hosted behind authentication, move it to a public location first.
+</Accordion>
+
+<Accordion title="MCP messages garbled / client cannot parse responses">
+If the MCP protocol stream is corrupted, your AI client will fail to parse responses or will show garbled output. The most common cause is something writing to stdout outside of the MCP SDK.
+
+**To fix:**
+1. Check your startup code, environment setup scripts, and any Deno shims for anything that writes to stdout (e.g., `console.log`, `Deno.stdout.write`).
+2. Replace any stdout logging with stderr logging (`console.error` or `Deno.stderr.write`).
+3. Ensure no shell profile or `.env` loader prints output to stdout when the process starts.
+4. Restart your AI client after making changes.
+
+<Note>
+stdout is reserved exclusively for MCP protocol messages. All logs, debug output, and error messages must go to stderr.
+</Note>
+</Accordion>
+
+<Accordion title="Tool call returns {ok: false, error: 'forbidden'} — insufficient role">
+Your workspace role does not permit the operation you attempted. For example, calling `remember_brand_fact` requires admin or owner role, and calling `create_campaign_draft` requires at least editor role.
+
+**To fix:**
+1. Check the [Permissions](/developers/mcp/permissions) page for the minimum role required by the tool you are calling.
+2. Ask your workspace owner or admin to upgrade your role if you need access.
+3. If you believe your role is correct, confirm in workspace **Settings → Members** that your account shows the expected role.
+</Accordion>
+
+---
+
+If none of the above resolves your issue, contact the SendWhale support team at [support@gosendwhale.com](mailto:support@gosendwhale.com) or visit [https://www.gosendwhale.com/support](https://www.gosendwhale.com/support). Include the error output from your MCP client's stderr log when you reach out.

@@ -1,0 +1,125 @@
+---
+title: "SendWhale MCP server workflow examples"
+sidebarTitle: "Examples"
+description: "End-to-end MCP workflow examples: reading brand context, listing resources, creating templates and campaign drafts, and handing off to SendWhale's UI."
+---
+
+These examples show common end-to-end workflows using the SendWhale MCP server. Each example builds on the previous one — by the end, you will have created a campaign draft and handed it off to SendWhale's UI for final delivery.
+
+## Example 1: Read workspace brand context
+
+Start by reading your workspace's brand context resource. This gives your AI client access to your brand voice, design instructions, and saved memories before it generates any content.
+
+```
+read_resource("sendwhale://workspaces/ws_abc123/")
+```
+
+The response is a JSON object containing your workspace name, brand voice, colour palette, font references, and knowledge base entries. Your AI client uses this as context for all subsequent content generation.
+
+## Example 2: List templates and audiences
+
+Before creating anything, check what already exists in your workspace.
+
+```json
+// list_templates
+{
+  "workspace_id": "ws_abc123",
+  "page": 1,
+  "limit": 10
+}
+```
+
+```json
+// list_audiences
+{
+  "workspace_id": "ws_abc123",
+  "page": 1,
+  "limit": 10
+}
+```
+
+Note the IDs of any templates or audiences you want to reuse — you will reference them when creating the campaign draft.
+
+## Example 3: Create an email template
+
+If you do not have a suitable template yet, create one now. Pass the full HTML content for the email body.
+
+```json
+{
+  "workspace_id": "ws_abc123",
+  "name": "Summer Sale Announcement",
+  "subject": "Our summer sale starts tomorrow",
+  "html_content": "<p>Hello {{first_name}},</p><p>The wait is over — our summer sale kicks off tomorrow with up to 40% off across the entire range.</p><p>Shop now →</p>"
+}
+```
+
+The response includes the new template's ID and `updated_at`. You can also read the template HTML back through the resource URI:
+
+```
+read_resource("sendwhale://workspaces/ws_abc123/templates/tmpl_xyz789/html")
+```
+
+## Example 4: Create a campaign draft
+
+Create a campaign draft using the template and audience IDs from the previous steps. This never sends or schedules anything.
+
+```json
+{
+  "workspace_id": "ws_abc123",
+  "name": "Summer Sale — July 2026",
+  "subject": "Our summer sale starts tomorrow",
+  "template_id": "tmpl_xyz789",
+  "audience_id": "aud_def456"
+}
+```
+
+The response includes the campaign ID and `updated_at`. Save both values — you will need them to update the draft.
+
+## Example 5: Update a campaign draft with the concurrency guard
+
+When you update an existing draft, always pass the `updated_at` value from your last read. This prevents you from silently overwriting changes made by another session or team member.
+
+```json
+{
+  "workspace_id": "ws_abc123",
+  "campaign_id": "cmp_ghi012",
+  "updated_at": "2026-10-02T10:30:00Z",
+  "subject": "Our summer sale is LIVE — shop now"
+}
+```
+
+If the `updated_at` you send does not match the current version on the server, you will receive:
+
+```json
+{ "ok": false, "data": null, "error": "conflict" }
+```
+
+When this happens, call `get_campaign` to fetch the latest version, re-apply your changes on top of the fresh data, and retry the update.
+
+## Example 6: Save an image to your workspace library
+
+If your email references an external image, copy it into your workspace library first so it is reliably hosted.
+
+```json
+{
+  "workspace_id": "ws_abc123",
+  "url": "https://your-cdn.example.com/images/summer-sale-banner.jpg",
+  "name": "Summer Sale Banner"
+}
+```
+
+The response includes a workspace storage URL you can use in your template HTML.
+
+## Example 7: Open the campaign for review and delivery
+
+After creating or updating your draft, open it in SendWhale's UI to run preflight checks, send a test email, confirm your audience, and schedule or send the campaign.
+
+```
+https://www.gosendwhale.com/app/campaigns/<CAMPAIGN_ID>
+```
+
+Replace `<CAMPAIGN_ID>` with the ID returned when you created the draft.
+
+<Warning>
+There is no `send_campaign` or `schedule_campaign` MCP tool. Delivery always requires a human review step in SendWhale's authenticated UI. This is intentional — the MCP server is for content creation and workspace management, not for triggering sends.
+</Warning>

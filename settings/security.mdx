@@ -1,0 +1,57 @@
+---
+title: "Secure your SendWhale account and credentials"
+sidebarTitle: "Security"
+description: "Manage active sessions, protect API keys and access tokens, and follow security best practices to keep your SendWhale account safe."
+---
+
+Keeping your SendWhale account secure means managing active sessions, handling credentials carefully, and applying the principle of least privilege when authorizing integrations and external tools. Review the guidance below to minimize your exposure and respond quickly if something goes wrong.
+
+## Session management
+
+SendWhale tracks active sessions across the devices where you are signed in. To review your sessions:
+
+1. Go to **Account → Security**.
+2. View the list of active sessions, including device type and approximate location.
+3. Click **Revoke** next to any session you do not recognize or no longer need.
+
+Revoking a session signs out that device immediately. If a device is lost, stolen, or compromised, revoke its session right away before taking any other steps.
+
+## API key and access token security
+
+API keys and access tokens grant programmatic access to your workspace. Treat them with the same care as passwords.
+
+<CardGroup cols={2}>
+  <Card title="Store keys safely" icon="lock">
+    Always store API keys and access tokens in environment variables or a secrets manager — never hard-code them directly in source code.
+  </Card>
+  <Card title="Never commit to repositories" icon="code-branch">
+    Never commit keys to a public or private repository. Use `.gitignore` and secret-scanning tools to prevent accidental exposure.
+  </Card>
+  <Card title="Rotate exposed keys" icon="rotate">
+    If a key may have been exposed — through a public commit, a leaked log file, or any other means — rotate it immediately by generating a new key and revoking the old one.
+  </Card>
+  <Card title="Revoke unused keys" icon="trash">
+    Revoke API keys you are no longer using from **Workspace Settings → API Keys**. Dormant credentials are an unnecessary risk.
+  </Card>
+</CardGroup>
+
+## Principle of least privilege
+
+Use the lowest-permission credential type that each use case actually requires:
+
+- **Brand read key** — use this for reading brand context via the Brand Context API. It does not grant write access to campaigns or contacts.
+- **Campaign API key** — use this for campaign operations such as creating drafts or updating templates. Do not use it in contexts where read-only access is sufficient.
+
+Scoping credentials tightly limits the blast radius if a key is ever compromised.
+
+## Private file attachments
+
+Files you upload to SendWhale — images, attachments, and assets — are stored privately. They are not publicly accessible unless you explicitly use them in a published campaign or hosted page. Do not upload sensitive documents or confidential files to your SendWhale image library.
+
+<Warning>
+  If you suspect your account or any API keys have been compromised, revoke all active keys immediately and contact [support@gosendwhale.com](mailto:support@gosendwhale.com). Include your workspace name and a brief description of what you observed so the support team can assist you quickly.
+</Warning>
+
+<Info>
+  Backup, restore, and delivery behavior depend on verified operator configuration. SendWhale does not make specific SLA or data-retention guarantees in its documentation.
+</Info>

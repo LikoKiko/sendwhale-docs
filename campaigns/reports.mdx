@@ -1,0 +1,61 @@
+---
+title: "Analyze campaign performance with reports"
+sidebarTitle: "Reports"
+description: "Review delivery and engagement metrics for sent campaigns, filter by date range, export data as CSV, and understand the limitations of open and click tracking."
+---
+
+Campaign reports give you a view of how your email performed after it was sent. You can review delivery outcomes, track engagement signals, filter data by time period, and export results for further analysis. Understanding what each metric means — and where its limitations lie — helps you draw the right conclusions from your data.
+
+## Available metrics
+
+<ResponseField name="Sent" type="number">
+  The number of emails accepted for delivery by SendWhale. This is your starting count — the total number of recipients the campaign was dispatched to after suppression.
+</ResponseField>
+
+<ResponseField name="Delivered" type="number">
+  Emails confirmed as delivered to the recipient's mail server. A delivered email has been accepted by the receiving server, but this does not confirm it reached the inbox rather than the spam folder.
+</ResponseField>
+
+<ResponseField name="Bounced" type="number">
+  Emails returned as undeliverable. Includes both **hard bounces** (permanent delivery failures, such as invalid addresses) and **soft bounces** (temporary failures, such as a full mailbox). Hard-bounced addresses are automatically suppressed.
+</ResponseField>
+
+<ResponseField name="Complaints" type="number">
+  Recipients who marked the email as spam using their email client's "Report spam" button. High complaint rates negatively impact your sender reputation.
+</ResponseField>
+
+<ResponseField name="Opens" type="number">
+  Estimated unique opens. Open tracking works by loading a small invisible image in the email. **Note:** Privacy features — most notably Apple Mail Privacy Protection — cause email clients to pre-fetch this image, which inflates open counts regardless of whether a human actually read the email.
+</ResponseField>
+
+<ResponseField name="Clicks" type="number">
+  Unique clicks on tracked links within the campaign. Click tracking requires link tracking to be enabled for the campaign. Clicks are a more reliable engagement signal than opens.
+</ResponseField>
+
+<ResponseField name="Unsubscribes" type="number">
+  Recipients who clicked the unsubscribe link in your campaign. These contacts are immediately suppressed from future sends.
+</ResponseField>
+
+## Filtering by date range
+
+Use the date range filter in the reports view to focus on a specific time window. This is useful for comparing performance across campaigns sent in the same period or for reviewing engagement trends over time.
+
+## Exporting report data
+
+Download your campaign report as a CSV file for use in external tools, presentations, or custom analysis. The export includes the metrics visible in the current report view.
+
+## Attribution limitations
+
+Before drawing conclusions from your report data, keep these limitations in mind:
+
+- **Open tracking inflation** — Apple Mail Privacy Protection and similar features in other email clients pre-load the tracking pixel, recording an "open" whether or not a human read the message. Open rates are directional signals, not precise counts of human readers.
+- **Click tracking dependency** — click data is only collected if link tracking is enabled on the campaign. Campaigns without link tracking show no click data.
+- **Delivered ≠ inbox** — a delivered email reached the recipient's mail server, but may have been filtered into spam or junk by the receiving client.
+
+<Info>
+Privacy protections in modern email clients affect open tracking accuracy. Treat open rates as a relative benchmark rather than an absolute count. Use click rates alongside open rates for a more reliable picture of engagement.
+</Info>
+
+<Warning>
+Do not use campaign report metrics as exact counts of human engagement. Opens, clicks, and deliveries are proxies subject to the tracking limitations described above. Avoid making high-stakes decisions — such as audience suppression or list pruning — based solely on these numbers without accounting for their inherent inaccuracies.
+</Warning>

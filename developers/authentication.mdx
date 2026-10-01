@@ -1,0 +1,96 @@
+---
+title: "Authenticate with the SendWhale API"
+sidebarTitle: "Authentication"
+description: "Learn about SendWhale's authentication modes — user JWTs, workspace API keys, brand read keys, and MCP access tokens — and how to use each one."
+---
+
+SendWhale supports multiple authentication modes depending on which API surface you are calling. Every credential is passed as a Bearer token in the `Authorization` header, and every request must be scoped to a specific workspace. The backend uses Supabase row-level security (RLS) to enforce data isolation at the database level — a credential can only access data in workspaces it is authorized for, regardless of how a request is formed.
+
+## Credential types
+
+| Credential type | Used for | Where to create | Expiry |
+|---|---|---|---|
+| User JWT | Direct API calls authenticated as yourself | Obtained via sign-in flow | Session lifetime |
+| Workspace API key | Campaign and contact operations | Workspace Settings | Configurable |
+| Brand read key | Brand Context API (read-only) | Workspace → Agent Access | 90 days |
+| MCP access token (user JWT) | Local MCP server | Obtained via sign-in flow | Session lifetime |
+
+<Warning>
+  Never use a service-role key in client-side code, documentation examples, or any context where it could be exposed publicly. Always use the lowest-permission credential that your use case requires.
+</Warning>
+
+## How to pass credentials
+
+Include your credential in the `Authorization` header of every API request using the `Bearer` scheme:
+
+```http
+Authorization: Bearer <YOUR_CREDENTIAL>
+```
+
+For endpoints that require a workspace context, also include your `workspace_id` in the request body or as a query parameter:
+
+```json
+{
+  "workspace_id": "<YOUR_WORKSPACE_ID>"
+}
+```
+
+Your Workspace ID is available in workspace **Settings → Agent Access**.
+
+## Credential details
+
+<Accordion title="User JWT">
+  A user JWT is issued when you authenticate through the SendWhale sign-in flow. It represents your personal identity and inherits the permissions of your role in each workspace (owner, admin, editor, or viewer).
+
+  Use a user JWT when making direct API calls on your own behalf — for example, from a server-side script that you run as yourself.
+
+  User JWTs are valid for the duration of your session. When the session expires, sign in again to obtain a fresh token.
+</Accordion>
+
+<Accordion title="Workspace API key">
+  Workspace API keys are long-lived credentials scoped to a specific workspace. Use them for Campaign API and contact operations in server-side integrations where you do not want to rely on a personal session.
+
+  Create and manage workspace API keys in workspace **Settings**. Each key can be given a custom expiry and should be rotated regularly. Revoke any key that is no longer in use.
+</Accordion>
+
+<Accordion title="Brand read key">
+  Brand read keys authenticate requests to the Brand Context API. They are intentionally limited in scope:
+
+  **A brand read key can:**
+  - Read workspace brand context (name, description, voice, colors, fonts, social links, knowledge base)
+
+  **A brand read key cannot:**
+  - Send mail
+  - Read contact lists
+  - Create or modify campaigns
+  - Access billing data
+
+  Create brand read keys in workspace **Settings → Agent Access** (owner or admin role required). Keys expire after **90 days**. Set a reminder to revoke and replace each key before it expires to avoid breaking integrations that depend on it.
+
+  <Note>
+    Because brand read keys have a limited permission scope, they are safe to use in server-side automation and AI integrations. Store them as server-side environment variables — never in client-side code or public repositories.
+  </Note>
+</Accordion>
+
+<Accordion title="MCP access token">
+  The local MCP server authenticates using your personal user JWT — the same token issued when you sign in to SendWhale. This is intentional: MCP operations act on your behalf within your role's permissions, so the server never needs a separate service-level credential.
+
+  Supply your user JWT as the `SENDWHALE_ACCESS_TOKEN` environment variable when configuring the MCP server. See the [MCP overview](/developers/mcp/overview) for full configuration instructions.
+</Accordion>
+
+## Credential expiry and rotation
+
+| Credential | Expiry | Rotation approach |
+|---|---|---|
+| User JWT | Session lifetime | Sign in again when the session expires |
+| Workspace API key | Configurable | Create a replacement before revoking the old key |
+| Brand read key | 90 days | Create a replacement in Agent Access, update your environment variables, then revoke the old key |
+| MCP access token | Session lifetime | Sign in again when the session expires |
+
+Rotate credentials proactively rather than reactively. If any credential is exposed or compromised, revoke it immediately from workspace Settings and replace it before resuming operations.
+
+## Permissions and workspace scope
+
+All API operations are scoped to a single workspace. A credential issued in one workspace cannot access data in another workspace, even if you are a member of both. Supabase RLS enforces this isolation at the database level — it is not just a convention in the API layer.
+
+Each workspace role (owner, admin, editor, viewer) controls which actions a user JWT or MCP access token can perform. Workspace API keys and brand read keys carry their own fixed permission scopes that are independent of workspace roles.

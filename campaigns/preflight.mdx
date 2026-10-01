@@ -1,0 +1,86 @@
+---
+title: "Run preflight checks before sending a campaign"
+sidebarTitle: "Preflight"
+description: "Preflight validates your campaign before you send or schedule it — checking sender verification, audience, content, links, and workspace send allowance."
+---
+
+Preflight is a validation step that runs automatically when you attempt to send or schedule a campaign. It checks that everything required for a successful delivery is in place. Some issues block sending entirely; others surface as warnings that you should review but that do not stop the send.
+
+## What preflight checks
+
+<Accordion title="Verified sender">
+  The sender email address on your campaign must be verified in your workspace. Unverified senders cannot be used for delivery. Verify your sending domains and addresses in [Settings → Senders](/settings/senders).
+
+  **Blocking:** Yes — an unverified sender prevents the campaign from being sent.
+</Accordion>
+
+<Accordion title="Audience selected">
+  Your campaign must have a recipient audience or segment chosen. A campaign without recipients cannot be delivered.
+
+  **Blocking:** Yes.
+</Accordion>
+
+<Accordion title="Subject line">
+  The subject line must not be empty. An email with no subject line is likely to be filtered or ignored.
+
+  **Blocking:** Yes.
+</Accordion>
+
+<Accordion title="Body content">
+  The campaign body must not be empty. A campaign with no content cannot be sent.
+
+  **Blocking:** Yes.
+</Accordion>
+
+<Accordion title="Footer">
+  Every outgoing campaign must contain an unsubscribe link and your business address. SendWhale adds these automatically to the footer — preflight confirms they are present.
+
+  **Blocking:** Yes if missing.
+</Accordion>
+
+<Accordion title="Links">
+  Preflight scans the links in your campaign for obvious issues — for example, blank `href` values or malformed URLs. Fix any broken links before sending.
+
+  **Blocking:** Warning — link issues are flagged for review but may not block sending depending on severity.
+</Accordion>
+
+<Accordion title="Images">
+  Preflight checks that images referenced in your campaign are loading correctly. Images that return errors will appear as broken in recipients' inboxes.
+
+  **Blocking:** Warning — image issues are flagged for review.
+</Accordion>
+
+<Accordion title="Workspace send allowance">
+  Your workspace must have sufficient send credits or be within your plan's sending limits to deliver the campaign. If you are at or over your limit, the send is blocked.
+
+  **Blocking:** Yes if over limit.
+</Accordion>
+
+<Accordion title="Consent and suppression">
+  Suppressed, unsubscribed, and bounced contacts in your selected audience are automatically excluded before delivery. Preflight confirms this suppression check is in place — no action is required from you.
+
+  **Blocking:** Not a blocking issue; exclusion is handled automatically.
+</Accordion>
+
+## Fixing preflight issues
+
+When preflight surfaces an issue, it links directly to the setting or section you need to fix. Resolve each blocking issue before attempting to send again. Address warnings even if they do not block the send — they indicate potential delivery or rendering problems.
+
+<Steps>
+  <Step title="Review the preflight report">
+    Read each flagged item and note whether it is blocking or a warning.
+  </Step>
+  <Step title="Fix blocking issues first">
+    Resolve any issues marked as blocking — these prevent the campaign from being sent at all.
+  </Step>
+  <Step title="Address warnings">
+    Review and fix warnings where possible before proceeding.
+  </Step>
+  <Step title="Re-run preflight">
+    After making changes, return to the send or schedule flow to re-run preflight and confirm all blocking issues are resolved.
+  </Step>
+</Steps>
+
+<Note>
+Passing preflight means SendWhale has accepted your campaign for delivery and all required fields are present. It does not guarantee inbox placement — factors such as your sender reputation, content, and recipient engagement also affect deliverability.
+</Note>

@@ -1,0 +1,41 @@
+---
+title: "What happens after a form submission"
+sidebarTitle: "Subscription Flow"
+description: "Understand the post-submission flow: validation, double opt-in, duplicate handling, unsubscribe protection, and suppression list checks."
+---
+
+Submitting a signup form sets off a sequence of checks and actions before a contact is officially added to your audience. Understanding this flow helps you set accurate expectations and troubleshoot unexpected results.
+
+<Note>
+  Not every form submission automatically confirms a contact as subscribed. Double opt-in is recommended for stronger consent records and is required in some jurisdictions.
+</Note>
+
+## Step-by-step post-submission flow
+
+<Steps>
+  <Step title="SendWhale validates the submission">
+    Immediately after submission, SendWhale checks that the email address is in a valid format and that all required fields have been filled in. Invalid or incomplete submissions are rejected and the visitor sees the configured error message.
+  </Step>
+
+  <Step title="Double opt-in check">
+    **If double opt-in is enabled:** SendWhale sends a verification email to the submitted address. The contact is not added to your audience as subscribed until they click the confirmation link in that email. If they do not confirm, their status remains pending and they do not receive your marketing emails.
+
+    **If double opt-in is not enabled:** SendWhale skips the verification step and proceeds directly to adding the contact to the assigned audience as subscribed.
+  </Step>
+
+  <Step title="Contact is added to the audience">
+    Once confirmed (or immediately, if double opt-in is off), the contact is added to the assigned audience with a subscribed status and can receive campaigns targeting that audience.
+  </Step>
+</Steps>
+
+## Duplicate handling
+
+If the submitted email address already exists in your contacts, SendWhale updates the existing contact record rather than creating a second entry. No duplicate contact is created, and any new field values provided in the form are merged into the existing record.
+
+## Unsubscribe protection
+
+If a contact previously unsubscribed and then submits your signup form again, they are **not** automatically re-subscribed. This prevents accidental re-subscription and helps you maintain compliance with unsubscribe requests. To re-subscribe a contact who has opted out, they must go through a deliberate re-consent process appropriate for your jurisdiction.
+
+## Suppressed contacts
+
+Contacts on your suppression list who re-submit a signup form are not re-subscribed. Suppression takes precedence over new form submissions to protect both the contact and your sender reputation.

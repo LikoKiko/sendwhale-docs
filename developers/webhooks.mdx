@@ -1,0 +1,120 @@
+---
+title: "Receive SendWhale webhook event notifications"
+sidebarTitle: "Webhooks"
+description: "Set up a webhook endpoint to receive real-time SendWhale campaign delivery event notifications, verify signatures, and handle retries."
+---
+
+Webhooks let SendWhale push event notifications to your server the moment a campaign delivery event occurs — delivered, bounced, clicked, and more. Instead of polling the API, your server receives an HTTP POST request from SendWhale as soon as the event happens, which makes it straightforward to trigger downstream workflows in real time.
+
+<Info>
+  The webhook system is currently in beta. Contact [support@gosendwhale.com](mailto:support@gosendwhale.com) to enable webhooks for your account.
+</Info>
+
+## Supported events
+
+SendWhale sends webhook notifications for the following campaign delivery events:
+
+| Event | Description |
+|---|---|
+| `campaign.sent` | The campaign has been submitted for delivery. |
+| `campaign.delivered` | The message was successfully delivered to the recipient's mail server. |
+| `campaign.bounced` | The message could not be delivered and bounced. |
+| `campaign.complained` | The recipient marked the message as spam. |
+| `campaign.opened` | The recipient opened the message. |
+| `campaign.clicked` | The recipient clicked a link in the message. |
+| `campaign.unsubscribed` | The recipient unsubscribed via the message. |
+
+## Set up a webhook endpoint
+
+<Steps>
+  <Step title="Expose a public HTTPS endpoint">
+    Your webhook receiver must be a publicly accessible HTTPS URL. Create a route in your server that accepts `POST` requests, reads the raw request body, and returns a `2xx` status code promptly after receipt.
+
+    Process payloads asynchronously (for example, by queuing them) rather than performing heavy work before responding. If your endpoint does not return `2xx` quickly, SendWhale will treat the delivery as failed and retry.
+  </Step>
+
+  <Step title="Register your endpoint in SendWhale">
+    1. Sign in to [SendWhale](https://www.gosendwhale.com/login) and open your workspace **Settings**.
+    2. Navigate to **Integrations** (or **Developer Settings**).
+    3. Click **Add Endpoint** and enter your public HTTPS URL.
+    4. Select the events you want to subscribe to.
+    5. Click **Save** and copy the **Webhook Secret** — you will use it to verify incoming signatures.
+
+    <Warning>
+      Store your webhook secret securely as a server-side environment variable. Do not expose it in client-side code, public repositories, or log output.
+    </Warning>
+  </Step>
+
+  <Step title="Verify webhook signatures">
+    Every webhook request from SendWhale includes a signature header that you should validate before processing the payload. This confirms the request genuinely came from SendWhale and was not tampered with in transit.
+
+    ```
+    X-SendWhale-Signature: <HMAC-SHA256 signature>
+    ```
+
+    Compute the expected signature by creating an HMAC-SHA256 digest of the raw request body using your webhook secret, then compare it to the value in the header using a constant-time comparison to prevent timing attacks.
+
+    <Tabs>
+      <Tab title="Python">
+        ```python
+        import hmac
+        import hashlib
+
+        def verify(secret: str, payload: bytes, signature: str) -> bool:
+            expected = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
+            return hmac.compare_digest(expected, signature)
+        ```
+      </Tab>
+      <Tab title="Node.js">
+        ```javascript
+        const crypto = require("crypto");
+
+        function verify(secret, payload, signature) {
+          const expected = crypto
+            .createHmac("sha256", secret)
+            .update(payload)
+            .digest("hex");
+          return crypto.timingSafeEqual(
+            Buffer.from(expected),
+            Buffer.from(signature)
+          );
+        }
+        ```
+      </Tab>
+    </Tabs>
+
+    <Warning>
+      Always validate webhook signatures before processing payloads. Skipping this step means your endpoint will process any POST request sent to it, including forged or replayed events.
+    </Warning>
+  </Step>
+
+  <Step title="Guard against replay attacks">
+    Check the `timestamp` field in the payload against your server's current time. If the timestamp is older than your acceptable tolerance (for example, five minutes), reject the request. This prevents an attacker who captured a valid signed payload from replaying it later.
+  </Step>
+</Steps>
+
+## Example payload
+
+The following is a representative webhook payload for a `campaign.delivered` event.
+
+```json
+{
+  "event": "campaign.delivered",
+  "timestamp": "2026-10-02T12:00:00Z",
+  "workspace_id": "ws_abc123",
+  "campaign_id": "cmp_xyz456",
+  "recipient": "[REDACTED]"
+}
+```
+
+All payloads include `event`, `timestamp`, `workspace_id`, and `campaign_id`. Additional fields may be present depending on the event type.
+
+## Retries
+
+If your endpoint returns a non-`2xx` HTTP status code, SendWhale retries delivery automatically. Design your handler to be idempotent — processing the same event twice should not cause unintended side effects. You can use the combination of `event`, `campaign_id`, and `timestamp` to deduplicate events on your side.
+
+## Next steps
+
+- Return to the [API Reference](./api-reference) to explore other available endpoints.
+- See [Authentication](./authentication) for details on credential types and rotation.
+- Contact [support@gosendwhale.com](mailto:support@gosendwhale.com) to enable webhooks for your account or report an issue with webhook delivery.

@@ -1,47 +1,147 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Get started with SendWhale: your first campaign"
+sidebarTitle: "Quickstart"
+description: "Create your account, set up your brand, build an audience, draft your first campaign with Swell, and send — end to end in one guided walkthrough."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+This guide walks you through everything from creating your SendWhale account to reviewing the report after your first campaign lands in inboxes. Follow each step in order — later steps depend on the setup completed in earlier ones. The whole process takes roughly 15–20 minutes on a first run.
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+<Note>
+  Importing contacts into an audience does **not** automatically create marketing consent for those contacts. You are responsible for ensuring every contact on your list has given valid consent to receive marketing email before you send.
+</Note>
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+  <Step title="Register your account">
+    Go to [gosendwhale.com/signup](https://www.gosendwhale.com/signup) (or [/register](https://www.gosendwhale.com/register)) and create your account. Enter your name, email address, and a password of at least 12 characters, then accept the Terms of Service and Privacy Policy. You can also sign up with Google if you prefer not to set a password manually.
 
-    ```bash
-    your-cli init
-    ```
+    After submitting, check your inbox for a confirmation email. Click the confirmation link or enter the code provided. If the email doesn't appear within a few minutes, check your spam folder. Codes and links expire, so complete confirmation promptly — if yours expires, return to the sign-in page and request a new one.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
 
-    ```bash
-    your-cli start
-    ```
+  <Step title="Complete onboarding">
+    After confirming your email, SendWhale starts a five-step onboarding flow:
+
+    1. **Business identity** — Enter your business or brand name and primary category.
+    2. **Social & logo** — Add your website URL, social handles, and upload a logo.
+    3. **Address** — Provide a physical mailing address (required for CAN-SPAM / GDPR compliance footers).
+    4. **Team size** — Select the size of your team so SendWhale can tailor defaults.
+    5. **Goals** — Choose your primary email marketing goals (e.g., grow subscribers, promote products, nurture leads).
+
+    You must complete all five steps before accessing your workspace. You can update any of these details later from your workspace settings.
   </Step>
+
+  <Step title="Select or create your workspace">
+    Once onboarding is complete, SendWhale places you in your default workspace. If you were invited to an existing workspace, you may see a selector — choose the workspace you want to start in.
+
+    Your workspace is the container for all your contacts, campaigns, templates, and brand settings. You can create additional workspaces later from the account menu.
+  </Step>
+
+  <Step title="Add your brand details">
+    Open **Brand Settings** in the sidebar and fill in:
+
+    - **Brand name** — The name Swell uses when writing copy.
+    - **Colors** — Your primary and secondary brand colors (hex values).
+    - **Logo** — Upload your logo in PNG or SVG format.
+    - **Brand voice** — A short description of your tone (e.g., "friendly and concise", "authoritative and data-driven").
+
+    The more context you give Swell here, the more on-brand its first drafts will be. You can refine these settings at any time.
+  </Step>
+
+  <Step title="Create an audience and add a contact">
+    Navigate to **Audiences** and click **New audience**. Give it a descriptive name (for example, "Newsletter subscribers — Jan 2025").
+
+    Then add at least one consented contact so you have a real recipient available for testing. You can:
+
+    - **Import a CSV** — Map columns to fields such as email, first name, last name, and tags.
+    - **Add manually** — Enter a single contact's details by hand.
+
+    <Note>
+      Importing contacts does not create marketing consent. Only add contacts who have explicitly opted in to receive email from you.
+    </Note>
+  </Step>
+
+  <Step title="Open Swell and draft your campaign">
+    Go to **Campaigns** and click **New campaign**. When the editor opens, launch the **Swell** panel on the right side.
+
+    In the Swell chat input, describe your campaign goal in plain language — for example:
+
+    > "Write a welcome email for new subscribers. Friendly tone, mention our 10% first-order discount, and end with a CTA to shop the new collection."
+
+    Swell reads your brand context and returns a full draft including subject line, preheader, and body copy. Review the draft and iterate by typing follow-up instructions in the same chat — ask Swell to shorten the intro, change the CTA text, adjust the tone, or try a different subject line.
+
+    When you're satisfied with the content, apply the draft to the email canvas.
+  </Step>
+
+  <Step title="Review sender identity, subject, preheader, and footer">
+    Before sending, verify the following fields in the campaign settings panel:
+
+    - **Sender name** — The "From" name your recipients will see (e.g., "Alex at Acme Co").
+    - **Sender email** — Must be a verified domain address.
+    - **Subject line** — Keep it under 60 characters for reliable display across clients.
+    - **Preheader** — The preview text shown after the subject in inbox views; aim for 85–100 characters.
+    - **Footer** — Confirm your mailing address and unsubscribe link are present and correct. These are legally required.
+  </Step>
+
+  <Step title="Send a test email to yourself">
+    Click **Send test** and enter your own email address. Open the test email in your actual inbox and check:
+
+    - Subject line and preheader render correctly.
+    - Images load and are not distorted.
+    - All links open to the correct destinations.
+    - The unsubscribe link is functional.
+    - The email looks correct on both desktop and mobile.
+
+    Fix any issues in the editor before continuing.
+  </Step>
+
+  <Step title="Run preflight checks">
+    SendWhale's preflight panel flags common issues before you send. Work through any warnings or errors:
+
+    - ✅ Sender domain verified
+    - ✅ Audience selected and not empty
+    - ✅ Subject line present
+    - ✅ Footer contains mailing address and unsubscribe link
+    - ✅ No broken links detected in the email body
+
+    Resolve all errors before proceeding. Warnings are advisory but worth reviewing.
+  </Step>
+
+  <Step title="Choose recipients and schedule or send">
+    In the **Recipients** panel, select the audience or segment you want to send to. You can choose:
+
+    - **Send now** — Dispatch the campaign immediately after confirmation.
+    - **Schedule** — Pick a future date and time (in your workspace's configured timezone).
+
+    If you're scheduling, double-check the date, time, and timezone before saving.
+  </Step>
+
+  <Step title="Confirm the send">
+    A confirmation dialog summarizes your campaign: recipient count, subject line, sender identity, and send time. Review all details carefully — **sent campaigns cannot be recalled**.
+
+    Click **Confirm and send** (or **Confirm and schedule**) to finalize.
+  </Step>
+
+  <Step title="Inspect the campaign report">
+    Once the campaign has been sent (or is underway for scheduled sends), open its **Report** view from the Campaigns list. The report shows delivery status and engagement data as it becomes available.
+
+    Use the report to understand what resonated with your audience and apply those insights when drafting your next campaign with Swell.
+  </Step>
+
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## What's next
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<CardGroup cols={2}>
+  <Card title="Brand Context API" icon="key" href="/developers/brand-context">
+    Connect external tools to your brand knowledge with the Brand Context API.
+  </Card>
+  <Card title="MCP Server" icon="server" href="/developers/mcp/overview">
+    Use SendWhale's MCP server to drive campaigns from your AI coding environment.
+  </Card>
+  <Card title="Workspace roles" icon="users" href="/workspaces/people">
+    Invite teammates and assign owner, admin, editor, or viewer roles.
+  </Card>
+  <Card title="Support" icon="life-ring" href="https://www.gosendwhale.com/support">
+    Visit the support portal or email support@gosendwhale.com for help.
+  </Card>
+</CardGroup>

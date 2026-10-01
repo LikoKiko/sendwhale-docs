@@ -1,0 +1,60 @@
+---
+title: "Create a new email campaign in SendWhale"
+sidebarTitle: "Create Campaign"
+description: "Start a campaign from a blank canvas, generate a draft with Swell AI, pick a starter template, or import an existing design — then configure your send settings."
+---
+
+Every campaign in SendWhale begins with a creation step where you choose how to build your email and configure the core send settings. You can start from scratch, let Swell generate a first draft, pick a pre-built starter template, or bring in an existing design. After creating the campaign, it opens directly in the editor so you can refine the content before sending.
+
+## Choose a starting point
+
+<CardGroup cols={2}>
+  <Card title="Blank canvas" icon="file">
+    Start with an empty email and build your layout from scratch using the drag-and-drop editor.
+  </Card>
+  <Card title="Swell AI draft" icon="wand-magic-sparkles">
+    Describe your campaign goal and let Swell generate an initial draft — subject line, layout, and copy — that you can refine in the editor.
+  </Card>
+  <Card title="Starter template" icon="table-cells-large">
+    Choose from a set of editable starter templates. Each template is a fully editable starting point — not a locked design.
+  </Card>
+  <Card title="Import design" icon="arrow-up-from-bracket">
+    Import an existing email as HTML, a screenshot, or a Figma design. See [Import Design](/campaigns/import-design) for details.
+  </Card>
+</CardGroup>
+
+## Campaign setup fields
+
+After choosing a starting point, fill in your campaign's core settings:
+
+<ParamField body="Campaign name" type="string" required>
+  An internal label for this campaign. Recipients never see this name — use it to identify the campaign in your dashboard and reports.
+</ParamField>
+
+<ParamField body="Subject line" type="string" required>
+  The subject line recipients see in their inbox. Keep it clear and accurate — avoid misleading or clickbait phrasing.
+</ParamField>
+
+<ParamField body="Preheader text" type="string">
+  The preview text shown beneath the subject line in most email clients. Use it to complement the subject line with additional context.
+</ParamField>
+
+<ParamField body="Sender name" type="string" required>
+  The display name recipients see as the "From" name — for example, your brand name or team name.
+</ParamField>
+
+<ParamField body="Sender email" type="string" required>
+  The email address the campaign is sent from. Must be a verified sender domain or email address. Set up and verify senders in [Settings → Senders](/settings/senders).
+</ParamField>
+
+<ParamField body="Reply-to address" type="string">
+  The address replies are directed to. Defaults to the sender email if left blank.
+</ParamField>
+
+## After creating the campaign
+
+Once you confirm the setup, your campaign opens in the editor. From there you can build out the email content, preview it on desktop and mobile, and run a test send before scheduling or delivering to your audience.
+
+<Note>
+Choose a descriptive internal campaign name — one that will still make sense months from now when you are reviewing reports. Including the date, topic, and audience in the name (for example, "June 2025 — Summer Sale — VIP List") makes filtering and comparison much easier.
+</Note>

@@ -1,0 +1,46 @@
+---
+title: "Let Swell read your website and linked images"
+sidebarTitle: "Website & Images"
+description: "Give Swell a public URL and it will fetch your site's content and images to inform campaign messaging — with clear limits on what it can access."
+---
+
+You can ask Swell to read your website by providing a public URL in the conversation. Swell will fetch the page's content and use what it finds to inform campaign copy, extract relevant brand details, or identify visual assets you want to reference. This is useful when you want campaigns to reflect your current live site — product descriptions, value propositions, pricing, or seasonal messaging — without copying and pasting it all in manually.
+
+## What Swell can access
+
+When you provide a URL, Swell can read:
+
+- Publicly available page text and HTML content
+- Image metadata and image URLs embedded in the page
+- Structured content that does not require authentication to view
+
+## What Swell cannot access
+
+Swell will not retrieve or attempt to retrieve:
+
+- Pages that require a login or any form of authentication
+- Paywalled or gated content
+- Private or internal pages not accessible to the public internet
+
+## Safety limits
+
+Swell enforces request safety rules to protect your infrastructure and prevent misuse:
+
+- Requests to private-network destinations — including `localhost`, loopback addresses, and internal IP ranges — are automatically rejected
+- Requests that would follow unsafe redirects to non-public destinations are blocked
+
+<Warning>
+  Do not provide URLs pointing to internal systems, admin panels, staging environments, or any page that requires authentication. Swell will reject these requests, and submitting internal URLs may expose sensitive system paths in your conversation history.
+</Warning>
+
+## Working with linked images
+
+When a page Swell fetches includes image URLs, Swell can reference those images in the conversation and in drafts. Whether a specific image is usable depends on whether it is publicly accessible at the time Swell fetches the page — images behind CDN authentication, signed URLs, or access-controlled storage may not be available.
+
+## Review extracted content before using it
+
+Web content fetched by Swell is treated as untrusted input. Swell may misread, misinterpret, or incompletely capture content from complex or heavily scripted pages.
+
+<Note>
+  Always review any facts, figures, or brand details that Swell extracts from a website before including them in a campaign. Correct any inaccuracies in the conversation before asking Swell to draft from the fetched content.
+</Note>

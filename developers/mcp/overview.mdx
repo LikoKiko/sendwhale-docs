@@ -1,0 +1,68 @@
+---
+title: "SendWhale MCP server for AI client integration"
+sidebarTitle: "Overview"
+description: "Connect AI clients to your SendWhale workspace using the local stdio MCP server. Supports Claude Desktop, Cursor, VS Code, and any stdio-compatible client."
+---
+
+The SendWhale MCP server is a local stdio server built on the official TypeScript MCP SDK, with a Deno entry point at `mcp/stdio.ts`. It runs entirely on your own machine — there is no hosted service, no remote connector, and no installation through an MCP marketplace. Your AI client launches the Deno process directly, and all operations run against your SendWhale account using your user JWT and workspace ID.
+
+## What the MCP server enables
+
+Once connected, your AI client can:
+
+- Read your workspace brand context, memories, and design instructions
+- List and retrieve campaigns, templates, and audiences
+- Create campaign drafts and email templates
+- Manage audiences and save images to your workspace library
+- Store durable brand facts and update brand instructions
+
+<Info>
+The MCP server never sends or schedules campaigns. Delivery always requires a final human review step in SendWhale's authenticated UI.
+</Info>
+
+## Supported clients
+
+The MCP server works with any AI client that can launch a local stdio process and speaks the MCP protocol.
+
+<CardGroup cols={2}>
+  <Card title="Claude Desktop" icon="robot">
+    Add the server to your `claude_desktop_config.json` using the stdio server config format.
+  </Card>
+  <Card title="Cursor" icon="code">
+    Configure the server under Cursor's MCP settings using the stdio command and env block.
+  </Card>
+  <Card title="VS Code" icon="brackets-curly">
+    Use the VS Code MCP extension to register the SendWhale stdio server.
+  </Card>
+  <Card title="Any stdio-compatible client" icon="terminal">
+    Any client that can launch a local process and communicate over stdin/stdout works with this server.
+  </Card>
+</CardGroup>
+
+<Warning>
+There is no remote ChatGPT connector or MCP marketplace listing for SendWhale. The server runs locally on your machine — it is not a hosted HTTP or SSE service.
+</Warning>
+
+## How it works
+
+1. Your AI client reads your MCP config and launches the Deno process, passing environment variables that include your user JWT and workspace ID.
+2. The MCP server starts up, validates your credentials, and confirms you have access to the specified workspace.
+3. Your AI client discovers the available tools, resources, and prompts exposed by the server.
+4. When you invoke a tool or resource, the server authenticates the request against your SendWhale account and returns structured results.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Setup" href="/developers/mcp/setup" icon="gear">
+    Install Deno, configure environment variables, and connect your AI client.
+  </Card>
+  <Card title="Tools" href="/developers/mcp/tools" icon="wrench">
+    Browse all 11 MCP tools with inputs, outputs, and read vs. write classification.
+  </Card>
+  <Card title="Resources" href="/developers/mcp/resources" icon="database">
+    Read workspace brand context and documentation through MCP resources.
+  </Card>
+  <Card title="Prompts" href="/developers/mcp/prompts" icon="message">
+    Use built-in prompt templates to guide AI through common workflows.
+  </Card>
+</CardGroup>

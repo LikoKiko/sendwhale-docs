@@ -1,0 +1,106 @@
+---
+title: "Set up the SendWhale MCP server with your AI client"
+sidebarTitle: "Setup"
+description: "Install Deno, set your environment variables, and connect the SendWhale local stdio MCP server to Claude Desktop, Cursor, VS Code, or any compatible client."
+---
+
+The SendWhale MCP server runs as a local Deno process on your machine. Your AI client launches it directly — there is nothing to deploy or host. Follow the steps below to get the server running and connected to your preferred AI client.
+
+<Steps>
+
+<Step title="Install Deno">
+Check `mcp/deno.json` for the required Deno version, then install it:
+
+```bash
+# macOS / Linux
+curl -fsSL https://deno.land/install.sh | sh
+```
+
+For Windows, follow the instructions at [https://deno.land/#installation](https://deno.land/#installation).
+
+Verify your installation by running:
+
+```bash
+deno --version
+```
+</Step>
+
+<Step title="Clone or download the SendWhale MCP server">
+Clone the repository or download the source archive from SendWhale. Once you have the files, navigate to the `mcp/` directory — this is where the entry point (`stdio.ts`), config (`deno.json`), and locked dependencies (`deno.lock`) live.
+
+```bash
+cd /path/to/sendwhale/mcp
+```
+</Step>
+
+<Step title="Create an environment file">
+Create a `.env` file to hold your credentials. Store this file **outside your repository checkout** — never commit credentials to source control.
+
+```bash
+# .env — store outside your checkout
+SENDWHALE_SUPABASE_URL=https://your-project.supabase.co
+SENDWHALE_PUBLISHABLE_KEY=your_publishable_key
+SENDWHALE_ACCESS_TOKEN=your_user_jwt
+SENDWHALE_WORKSPACE_ID=your_workspace_id
+SENDWHALE_APP_URL=https://www.gosendwhale.com
+```
+
+All five variables are required. The server will log a startup error to stderr if any are missing.
+</Step>
+
+<Step title="Find your credentials">
+Locate the values for your environment file in your SendWhale workspace:
+
+- **SENDWHALE_WORKSPACE_ID** — go to workspace **Settings → Agent Access** to find your workspace ID.
+- **SENDWHALE_ACCESS_TOKEN** — this must be your **authenticated user JWT** obtained from your active SendWhale session. Open your browser's developer tools while signed in to SendWhale to copy your session token.
+
+<Warning>
+SENDWHALE_ACCESS_TOKEN must be a valid user JWT from an active SendWhale session. It is **not** a brand read key or a service-role key. User JWTs expire when your session ends — you will need to update this value each time your session expires. The MCP server does not automatically refresh tokens.
+</Warning>
+</Step>
+
+<Step title="Configure your MCP client">
+Use the example config at `mcp/clients/stdio.example.json` as a starting point. Below is a Claude Desktop example — adapt the structure to match your client's config format.
+
+```json
+{
+  "mcpServers": {
+    "sendwhale": {
+      "command": "deno",
+      "args": [
+        "run",
+        "--allow-net",
+        "--allow-env",
+        "--allow-read",
+        "/absolute/path/to/mcp/stdio.ts"
+      ],
+      "env": {
+        "SENDWHALE_SUPABASE_URL": "https://your-project.supabase.co",
+        "SENDWHALE_PUBLISHABLE_KEY": "your_publishable_key",
+        "SENDWHALE_ACCESS_TOKEN": "your_user_jwt",
+        "SENDWHALE_WORKSPACE_ID": "your_workspace_id",
+        "SENDWHALE_APP_URL": "https://www.gosendwhale.com"
+      }
+    }
+  }
+}
+```
+
+<Warning>
+Use an **absolute path** to `mcp/stdio.ts`. Relative paths will fail if your AI client launches the process from a different working directory.
+</Warning>
+
+For Cursor, VS Code with the MCP extension, or other clients, refer to that client's documentation for how to register a stdio MCP server — the `command`, `args`, and `env` fields map directly to the structure above.
+</Step>
+
+<Step title="Restart your AI client and verify the connection">
+Restart your AI client after saving the config. Look for "sendwhale" to appear in the client's list of connected MCP servers or available tools.
+
+If the server does not appear, check the client's MCP logs or stderr output for startup errors. Common causes are a missing or incorrect path to `stdio.ts`, missing environment variables, or an expired access token. See the [Troubleshooting](/developers/mcp/troubleshooting) page for a full list of diagnostic steps.
+</Step>
+
+</Steps>
+
+<Note>
+MCP server logs are written to stderr. stdout is reserved exclusively for MCP protocol messages. Do not add any code or tooling that writes to stdout — doing so will corrupt the MCP message stream and cause parsing failures in your AI client.
+</Note>

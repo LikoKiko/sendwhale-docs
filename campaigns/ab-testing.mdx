@@ -1,0 +1,47 @@
+---
+title: "Run A/B tests on your email campaigns"
+sidebarTitle: "A/B Testing"
+description: "Test subject line variants against a sample of your audience, then automatically send the winning variant to the remaining contacts after the test period."
+---
+
+A/B testing lets you compare different versions of your campaign to find what resonates best with your audience before committing to a full send. Instead of guessing which subject line will perform better, you test both on a sample of real recipients and use the results to decide.
+
+## How A/B testing works
+
+<Steps>
+  <Step title="Create your variants">
+    Set up two or more subject line variants for your campaign. Each variant is sent to a separate slice of your audience sample during the test period.
+  </Step>
+  <Step title="Set the sample size">
+    Choose what portion of your total audience receives the test variants. For example, if you set a 20% sample, 10% of your audience receives Variant A and 10% receives Variant B. The remaining 80% receive the winning variant after the test concludes.
+  </Step>
+  <Step title="Choose the winner metric">
+    Select the metric used to determine the winner — for example, **open rate**. At the end of the test period, the variant with the best result on that metric is declared the winner.
+  </Step>
+  <Step title="Send to the remainder">
+    After the test period ends, SendWhale automatically sends the winning variant to the rest of your audience.
+  </Step>
+</Steps>
+
+## Supported variants and metrics
+
+Check the campaign editor for the full list of variants (for example, subject line only vs. additional elements) and winner metrics currently supported in your workspace. Available options may expand over time.
+
+## Sample size and statistical significance
+
+<Note>
+The reliability of A/B test results depends on your audience size. On small audiences, the difference between variants may be due to chance rather than a real performance difference. As a general guide:
+
+- **Larger audiences** produce more statistically reliable results
+- **Small audiences** (a few hundred contacts or fewer) may not produce conclusive data
+
+Interpret your test results with the sample size in mind, and avoid over-indexing on tests with very small sample pools.
+</Note>
+
+## Interaction with other campaign settings
+
+If your campaign also uses send-time optimization or other delivery settings, review how those features interact with A/B testing in your campaign settings before confirming. Do not assume that all combinations of features are supported — consult the in-product settings to confirm.
+
+## After the test
+
+Once the winner is sent to the full audience, the campaign report shows performance broken down by variant so you can review the full picture. Use these results to inform subject line strategy in future campaigns.

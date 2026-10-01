@@ -1,0 +1,88 @@
+---
+title: "Troubleshoot common SendWhale issues"
+sidebarTitle: "Troubleshooting"
+description: "Step-by-step solutions for the most common problems SendWhale users encounter, from account setup to campaign delivery."
+---
+
+If something isn't working as expected, the issues below cover the most common situations and how to resolve them. Work through the steps for your specific problem, and if none of them resolve the issue, contact [support@gosendwhale.com](mailto:support@gosendwhale.com) with a description and any error messages you see.
+
+<AccordionGroup>
+  <Accordion title="Account confirmation email not received">
+    If you signed up but haven't received a confirmation email:
+
+    1. Check your **spam or junk folder** — confirmation emails are sometimes filtered automatically.
+    2. Add **noreply@gosendwhale.com** to your contacts or safe-senders list to prevent future filtering.
+    3. Return to the confirmation page and use the **Resend confirmation email** option. Wait for the cooldown timer to expire before requesting another — sending multiple requests in quick succession will not speed up delivery.
+    4. If the email address on your account is incorrect, contact [support@gosendwhale.com](mailto:support@gosendwhale.com) to have it corrected before resending.
+  </Accordion>
+
+  <Accordion title="Recovery link is invalid or expired">
+    Password recovery links are **single-use** and expire shortly after they are issued. Using a link more than once, or waiting too long before clicking it, will cause it to fail.
+
+    To get a new link:
+
+    1. Go to [gosendwhale.com/forgot-password](https://www.gosendwhale.com/forgot-password).
+    2. Enter your email address and request a new recovery link.
+    3. Open the new email and click the link promptly — do not let it sit in your inbox before acting on it.
+  </Accordion>
+
+  <Accordion title="AI (Swell) provider unavailable or not responding">
+    If Swell, the AI campaign assistant, is unresponsive or returns an error:
+
+    1. The underlying AI provider may be experiencing temporary downtime. **Wait a few minutes** and try your request again.
+    2. Check whether the rest of the SendWhale interface is loading normally — if the entire app is affected, there may be a broader service issue.
+    3. If the problem persists for more than 15–20 minutes, contact [support@gosendwhale.com](mailto:support@gosendwhale.com) and describe what you were trying to do when the error occurred.
+  </Accordion>
+
+  <Accordion title="Workspace access denied">
+    If you see an access-denied message when opening a workspace:
+
+    1. Confirm you are **signed in to the correct account** — you may have multiple SendWhale accounts associated with different email addresses.
+    2. You may not be a member of this workspace. Ask the **workspace owner or admin** to invite you via **Settings → Members**.
+    3. If you were recently invited, make sure you accepted the invitation email before trying to access the workspace.
+  </Accordion>
+
+  <Accordion title="Campaign not saving">
+    If your campaign changes are not being saved:
+
+    1. Check your **internet connection** — a dropped connection will prevent saves from going through.
+    2. If you see a **conflict error**, it means another version of the campaign was saved while you were editing. Refresh the page to load the latest version, then re-apply your changes carefully.
+    3. Avoid having the same campaign open in multiple browser tabs simultaneously, as this can cause write conflicts.
+  </Accordion>
+
+  <Accordion title="No recipients found when sending">
+    If SendWhale reports no recipients for your campaign:
+
+    1. Open the **Contacts** section and inspect the audience you selected — it may be empty or have no active members.
+    2. Check whether all contacts in the audience are **suppressed** (unsubscribed, bounced, or marked as spam). Suppressed contacts are excluded from sends automatically.
+    3. Ensure your audience contains contacts with **valid email addresses** and an active subscription status.
+    4. If you recently imported contacts, allow a few minutes for the import to complete before sending.
+  </Accordion>
+
+  <Accordion title="Scheduled campaign did not send">
+    If a scheduled campaign did not send at the expected time:
+
+    1. Go to **Reports** and find the campaign. Check its **status** — a failed status indicates a delivery error occurred.
+    2. Open the campaign report for details about why it failed.
+    3. Verify that your **sender email address is verified** in Settings → Senders. Campaigns sent from an unverified address will not deliver.
+    4. Check that your plan has **sufficient send credits** remaining for the billing period in Settings → Billing.
+    5. Correct any identified issues, then reschedule or resend the campaign.
+  </Accordion>
+
+  <Accordion title="Images not loading in email">
+    Email clients load images by fetching them from a public URL at the time the email is opened. If images appear broken:
+
+    1. Confirm the image URL is **publicly accessible** — paste it into a browser in a private/incognito window to test. Images hosted on internal networks, behind authentication, or on localhost will not load for recipients.
+    2. If the URL is not publicly reachable, **re-upload the image** to your SendWhale image library (accessible from the email editor). SendWhale hosts uploaded images at a public URL automatically.
+    3. Check that the image URL has not changed or been deleted at the source.
+  </Accordion>
+
+  <Accordion title="Integration reconnection needed">
+    If an integration shows a disconnected or error state:
+
+    1. Go to **Workspace Settings → Integrations** and find the affected integration.
+    2. Click **Reconnect** and complete the reauthorization flow at the provider's site.
+    3. If reconnecting does not resolve the error, click **Disconnect**, then reconnect the integration from scratch by going through the full setup flow again.
+    4. If the problem persists after a full reconnect, contact [support@gosendwhale.com](mailto:support@gosendwhale.com) with the integration name and the error message you see.
+  </Accordion>
+</AccordionGroup>

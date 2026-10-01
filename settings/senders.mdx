@@ -1,0 +1,66 @@
+---
+title: "Verify sender domains and email addresses"
+sidebarTitle: "Senders"
+description: "Set up verified sender email addresses and authenticate your sending domain with SPF, DKIM, and DMARC records to protect deliverability."
+---
+
+Before you can send campaigns from SendWhale, you must verify the email address or domain you intend to send from. Verification proves ownership and — when you add domain authentication records — signals to receiving mail servers that your emails are legitimate, which protects your deliverability and sender reputation.
+
+## Add a sender email address
+
+Adding a verified sender address is the minimum requirement to start sending campaigns.
+
+<Steps>
+  <Step title="Go to Sender settings">
+    Navigate to **Settings → Senders** in your workspace.
+  </Step>
+  <Step title="Enter your sender address">
+    Click **Add sender**, enter the email address you want to send from, and confirm.
+  </Step>
+  <Step title="Confirm ownership">
+    SendWhale sends a confirmation link to that address. Open the email and click the link to verify ownership.
+  </Step>
+  <Step title="Set as default (optional)">
+    Once verified, you can set the address as your workspace default sender.
+  </Step>
+</Steps>
+
+## Authenticate your sending domain
+
+Domain authentication adds cryptographic proof that SendWhale is authorized to send on behalf of your domain. This significantly improves deliverability and helps prevent your emails from landing in spam.
+
+To authenticate your domain, add the following DNS records at your domain registrar or DNS provider:
+
+<AccordionGroup>
+  <Accordion title="SPF record">
+    An SPF (Sender Policy Framework) record lists the mail servers authorized to send email from your domain. Adding SendWhale's SPF record tells receiving servers that SendWhale is a permitted sender.
+
+    Add the SPF `TXT` record shown in **Settings → Senders → your domain** to your DNS.
+  </Accordion>
+  <Accordion title="DKIM record">
+    A DKIM (DomainKeys Identified Mail) record enables SendWhale to cryptographically sign every outgoing email. Receiving servers verify the signature to confirm the message has not been tampered with in transit.
+
+    Add the DKIM `CNAME` or `TXT` record shown in **Settings → Senders → your domain** to your DNS.
+  </Accordion>
+  <Accordion title="DMARC record">
+    A DMARC record tells receiving servers what to do with messages that fail SPF or DKIM checks — for example, quarantine them or reject them outright. DMARC also enables aggregate reporting so you can monitor authentication failures.
+
+    Add the DMARC `TXT` record shown in **Settings → Senders → your domain** to your DNS.
+
+    <Info>
+      DMARC requires SPF and DKIM to be in place first. Set up SPF and DKIM before adding a DMARC policy, otherwise legitimate emails may fail authentication checks.
+    </Info>
+  </Accordion>
+</AccordionGroup>
+
+## Find your DNS values
+
+Your exact DNS record values are unique to your SendWhale workspace. Retrieve them from **Settings → Senders → your domain**. Copy each value exactly as shown.
+
+<Warning>
+  Use only the DNS values provided in your SendWhale sender settings. Do not copy example values from documentation, blog posts, or other tools — DNS misconfiguration can directly harm your email deliverability and cause campaigns to be rejected or marked as spam.
+</Warning>
+
+## DNS propagation
+
+After adding your DNS records, return to **Settings → Senders** and click **Verify** next to your domain. Verification can take up to **48 hours** due to DNS propagation across the global DNS network. If verification is still pending after 48 hours, double-check that each record was entered correctly and contains no extra spaces or characters.

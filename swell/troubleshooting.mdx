@@ -1,0 +1,87 @@
+---
+title: "Troubleshoot common Swell AI issues"
+sidebarTitle: "Troubleshooting"
+description: "Diagnose and resolve the most common Swell problems — from provider errors and expired sessions to stale drafts and blank screens."
+---
+
+Most Swell issues fall into a small set of categories: provider configuration, session state, draft conflicts, or connectivity. Work through the relevant accordion below to identify and resolve the problem. If none of these steps resolve your issue, contact [support@gosendwhale.com](mailto:support@gosendwhale.com) or visit the [support page](https://www.gosendwhale.com/support).
+
+<Accordion title="Missing credentials or unavailable model">
+  Swell requires access to an AI provider to generate responses. If you see an error about missing credentials or an unavailable model, your account may not have an AI provider configured or your access may not yet be enabled.
+
+  **To resolve:**
+  1. Check your workspace provider settings to confirm that an AI provider has been connected.
+  2. If you believe access should already be enabled, contact [support@gosendwhale.com](mailto:support@gosendwhale.com) with your workspace details.
+</Accordion>
+
+<Accordion title="Provider rate limits">
+  Swell relies on a third-party AI provider to generate responses. If the provider is rate-limiting your account — typically due to high request volume in a short period — Swell may temporarily return errors or fail to respond.
+
+  **To resolve:**
+  - Wait a few minutes, then try your request again.
+  - If the problem persists beyond 15–20 minutes, check whether the issue is isolated to your account or affects your whole workspace, and contact support if needed.
+</Accordion>
+
+<Accordion title="Expired session">
+  If Swell stops responding mid-conversation or fails to load, your session may have expired.
+
+  **To resolve:**
+  1. Refresh the page.
+  2. Sign back in at [gosendwhale.com/login](https://www.gosendwhale.com/login) if prompted.
+  3. Return to your workspace and resume the conversation.
+
+  <Note>
+    Drafts that were saved before your session expired will still be available in the campaign editor.
+  </Note>
+</Accordion>
+
+<Accordion title="Stale campaign revision">
+  If you try to save a draft and receive a conflict error, another edit was saved to that campaign after you opened it. This can happen if you have the campaign open in multiple tabs, or if a teammate edited the same draft.
+
+  **To resolve:**
+  1. Refresh the page to load the latest saved version of the campaign.
+  2. Re-apply any changes you need to make on top of the current version.
+  3. Save again.
+</Accordion>
+
+<Accordion title="Streaming failure">
+  Swell streams responses as it generates them. If the response stops mid-generation — for example, cutting off partway through a draft — a network interruption or provider timeout likely caused the stream to drop.
+
+  **To resolve:**
+  1. Reload the page.
+  2. Open the campaign editor to check whether a partial draft was saved before the stream failed.
+  3. If a partial draft exists, continue editing from there or ask Swell to complete it in a new message.
+</Accordion>
+
+<Accordion title="Denied workspace action">
+  If Swell says it cannot perform a specific action — such as creating a campaign, updating an audience, or scheduling a send — you may not have the workspace role required for that action.
+
+  **To resolve:**
+  1. Go to your workspace **Members** settings and check your current role.
+  2. Workspace roles in SendWhale are: **owner**, **admin**, **editor**, and **viewer**. Some actions require editor-level access or higher.
+  3. Ask a workspace owner or admin to update your role if appropriate.
+
+  <Info>
+    If the action should be available to your role and is still denied, contact [support@gosendwhale.com](mailto:support@gosendwhale.com).
+  </Info>
+</Accordion>
+
+<Accordion title="Interrupted generation">
+  If Swell's generation process is interrupted — for example, by navigating away, closing the tab, or a sudden connection drop — the output may be incomplete.
+
+  **To resolve:**
+  1. Return to the campaign editor and check for any partial content that was saved up to the point of interruption.
+  2. Swell will indicate in the conversation what was or was not saved before the interruption occurred.
+  3. Continue from the saved content or ask Swell to regenerate the missing sections.
+</Accordion>
+
+<Accordion title="No response or blank screen">
+  If Swell shows a blank screen or does not respond to any input, the problem is most likely a connectivity or loading issue.
+
+  **To resolve:**
+  1. Check your internet connection.
+  2. Reload the page.
+  3. Clear your browser cache if the blank screen persists after reloading.
+  4. Try a different browser or incognito window to rule out a browser extension conflict.
+  5. If the issue continues, contact [support@gosendwhale.com](mailto:support@gosendwhale.com).
+</Accordion>

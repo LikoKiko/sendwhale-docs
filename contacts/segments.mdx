@@ -1,0 +1,59 @@
+---
+title: "Create audience segments with filter conditions"
+sidebarTitle: "Segments"
+description: "Build dynamic audience segments using filter conditions on contact fields, tags, status, purchase data, and campaign behavior — recalculated at send time."
+---
+
+A segment is a filtered subset of your contacts that SendWhale recalculates automatically based on the conditions you define. Unlike a static audience list, a segment always reflects the contacts who match your criteria at the moment you use it — so your targeting stays accurate without manual list updates.
+
+## What you can filter on
+
+Segment conditions can reference any of the following:
+
+- **Contact fields** — email, first name, last name, or other core fields
+- **Tags** — whether a contact has (or does not have) a specific tag
+- **Status** — subscribed, unsubscribed, bounced, or suppressed
+- **Custom attributes** — any attribute value stored on the contact
+- **Purchase data** — order history connected via your e-commerce or CRM integration
+- **Campaign behavior** — whether a contact opened, clicked, or did not engage with a previous campaign
+
+## AND vs. OR match modes
+
+When you add more than one condition to a segment, you choose how those conditions are combined:
+
+- **AND** — the contact must match **all** conditions to be included
+- **OR** — the contact must match **at least one** condition to be included
+
+You can combine AND and OR logic within a single segment to build precise targeting rules. Use the match mode toggle in the segment builder to switch between them.
+
+## Previewing your segment
+
+Before saving, SendWhale shows an estimated count of contacts that currently match your conditions. Use the preview to sanity-check your logic — a count of zero or an unexpectedly large number usually means a condition needs adjustment.
+
+## Dynamic recalculation at send time
+
+Segments are dynamic. When you send a campaign to a segment, SendWhale evaluates the conditions at that moment and builds the recipient list from whoever qualifies at send time. Contacts who join or leave the segment between now and your scheduled send will be included or excluded accordingly.
+
+## Saved audiences vs. segments
+
+| | Saved audience | Segment |
+|---|---|---|
+| **Composition** | Static list of contacts | Dynamic filter conditions |
+| **Updates** | You add or remove contacts manually | Recalculates automatically |
+| **Best for** | Import lists, curated groups | Behavioral and attribute-based targeting |
+
+Use a saved audience when you want precise control over exactly who is on the list. Use a segment when you want targeting to stay current automatically.
+
+## Example: VIP clickers
+
+To target subscribed contacts who clicked a previous campaign and are tagged "vip", create a segment with the following AND conditions:
+
+1. **Status** is **Subscribed**
+2. **Tag** contains **vip**
+3. **Campaign behavior** — clicked — *[select your previous campaign]*
+
+Every contact who satisfies all three conditions at send time will receive your next campaign.
+
+<Note>
+Suppressed and unsubscribed contacts are always excluded from sends, even if a segment condition technically matches them. Suppression checks run at delivery time regardless of segment logic.
+</Note>

@@ -1,0 +1,48 @@
+---
+title: "Send a test email before your campaign goes live"
+sidebarTitle: "Test Send"
+description: "Send a test version of your campaign to one or more email addresses to verify layout, links, images, and rendering before delivering to your full audience."
+---
+
+A test send lets you preview your campaign in a real email client before it reaches your audience. Use test sends to catch layout problems, broken links, missing images, and rendering differences across email clients — issues that are much easier to fix before the campaign goes out than after.
+
+## How to send a test
+
+<Steps>
+  <Step title="Open the test dialog">
+    From the campaign editor or the campaign detail page, select **Send Test** to open the test send dialog.
+  </Step>
+  <Step title="Enter recipient addresses">
+    Enter one or more email addresses to receive the test. You can send to your own address, a shared inbox, or a group of reviewers.
+  </Step>
+  <Step title="Send the test">
+    Click **Send Test**. SendWhale dispatches the test email immediately to every address you entered.
+  </Step>
+</Steps>
+
+## What to check in your test email
+
+Open the test in each email client your audience is likely to use and verify the following:
+
+- **Subject line** — displays correctly without truncation
+- **Preheader** — the preview text appears as intended
+- **Images** — all images load and display at the correct size
+- **Links** — every button and text link goes to the right destination
+- **Mobile layout** — columns stack and text sizes remain readable on small screens
+- **Footer** — unsubscribe link and business address are present and formatted correctly
+
+## Test send behavior
+
+- Test emails are sent **immediately** regardless of any schedule set on the campaign
+- Sending a test does **not** change the campaign's status — a draft remains a draft, and a scheduled campaign stays scheduled
+- A successful test request means SendWhale accepted and dispatched the test — it does not guarantee delivery to the inbox, as that depends on the receiving mail server and spam filters
+
+## Sending tests to colleagues
+
+<Note>
+Before sharing a test send with colleagues, remove any placeholder personal data, real customer information, real API keys, or other sensitive content from the campaign. Test emails travel through standard email infrastructure and should not carry production data.
+</Note>
+
+## Sending multiple tests
+
+There is no limit on how many test sends you can dispatch for a campaign. Send as many as you need throughout your editing and review process — each test reflects the current saved state of the campaign at the time you send it.

@@ -1,0 +1,63 @@
+---
+title: "Connect integrations to your workspace"
+sidebarTitle: "Integrations"
+description: "Connect, configure, reconnect, and disconnect third-party services from your SendWhale workspace, including CRM, e-commerce, and booking tools."
+---
+
+Integrations connect third-party services — such as CRMs, e-commerce platforms, chat tools, and booking systems — to your SendWhale workspace. When an integration is active, it keeps your contacts, audiences, and data in sync between SendWhale and the connected service. Integrations are configured per workspace, so you can connect different services to each brand you manage.
+
+## Integration states
+
+Every integration in your workspace shows one of three states:
+
+| State | Meaning |
+|---|---|
+| **Ready** | Connected and syncing normally — no action needed |
+| **Requires setup** | The integration is available but needs your provider credentials or OAuth authorization before it can activate |
+| **Unavailable** | Not yet available during the current beta — check back in a future release |
+
+<Info>
+  Some integrations are available to connect now, while others are planned for a future release. Check the integrations page in your workspace for the current status of each service.
+</Info>
+
+## Connecting an integration
+
+<Steps>
+  <Step title="Find the integration">
+    Go to **Workspace Settings → Integrations** and locate the service you want to connect.
+  </Step>
+  <Step title="Click Connect">
+    Select **Connect** on the integration card. SendWhale will either prompt you for an API key or redirect you to the provider's authorization page.
+  </Step>
+  <Step title="Authorize at the provider">
+    If the integration uses OAuth, you will be redirected to the provider. Review the permissions being requested, then confirm authorization. If the integration uses an API key, paste the key into the settings form — not into chat.
+  </Step>
+  <Step title="Return to SendWhale">
+    After authorizing, SendWhale completes the connection. The integration status updates to **Ready** once the first sync completes.
+  </Step>
+</Steps>
+
+## OAuth vs. API key integrations
+
+- **OAuth integrations** — you are redirected to the provider to grant access. Review the exact permissions listed on the provider's screen before confirming. You can revoke access from the provider's account settings at any time.
+- **API key integrations** — you copy an API key from your provider account and paste it into the integration settings form in SendWhale.
+
+<Warning>
+  Never paste API keys or secrets into the Swell chat window. Always use the integration settings form. Keys entered in chat may be logged or exposed unintentionally.
+</Warning>
+
+## Sync behavior
+
+Once connected, an integration syncs data on its configured schedule. Sync frequency depends on the integration. You do not need to trigger syncs manually — they run automatically. Check the integration detail page to see the last sync time and status.
+
+## Reconnecting an integration
+
+If an integration shows an error or an expired token, select **Reconnect** on the integration card and complete the authorization flow again. This happens when provider tokens expire or when you rotate your API keys.
+
+## Disconnecting an integration
+
+Select **Disconnect** on the integration card and confirm. SendWhale stops syncing with that service immediately. Existing data that was already synced into your workspace is not automatically deleted — you manage contact and audience data separately.
+
+<Info>
+  When Swell guides you through setting up an integration during a chat session, you still need to authorize the connection at the provider. Swell can walk you through the steps, but it cannot complete the authorization on your behalf.
+</Info>

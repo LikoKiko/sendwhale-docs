@@ -1,0 +1,57 @@
+---
+title: "Send transactional emails with SendWhale"
+sidebarTitle: "Transactional Email"
+description: "Create transactional email templates, generate dedicated API credentials, and send receipts, confirmations, and notifications via the SendWhale API."
+---
+
+Transactional emails are automated, non-marketing messages sent in direct response to a user action — think order receipts, account confirmations, password resets, and system notifications. SendWhale supports transactional sending through a dedicated API separate from your marketing campaigns.
+
+<Warning>
+  Transactional email credentials are different from marketing credentials and brand read keys. Using the wrong credential type will result in authentication errors. Keep your credential types clearly labelled and never substitute one for another.
+</Warning>
+
+<Info>
+  The transactional email API requires additional setup. Contact [support@gosendwhale.com](mailto:support@gosendwhale.com) if you need access enabled for your workspace.
+</Info>
+
+## Setting up transactional email
+
+<Steps>
+  <Step title="Create a transactional email template">
+    In your SendWhale workspace, create a dedicated email template for the transactional message you want to send (for example, an order confirmation or a welcome email). Design the template with any merge variable placeholders you intend to populate dynamically at send time.
+  </Step>
+
+  <Step title="Generate transactional API credentials">
+    Navigate to your workspace API settings and generate a dedicated set of credentials for transactional sending. These credentials are separate from your marketing API keys and brand read keys — do not reuse credentials across sending types.
+  </Step>
+
+  <Step title="Send via the transactional API">
+    Use the transactional API to send your message. Include the template ID, the recipient email address, and any optional merge variables in your request payload.
+  </Step>
+</Steps>
+
+## Authentication
+
+Pass your transactional API credentials in the `Authorization` header of every request. Do not use brand read keys or campaign API keys — those credential types are not accepted by the transactional sending endpoint and will return an authentication error.
+
+## Accepted payload fields
+
+| Field | Required | Description |
+|---|---|---|
+| Template ID | ✅ | The ID of the transactional template to render |
+| Recipient email | ✅ | The email address to deliver the message to |
+| Merge variables | Optional | Key-value pairs used to personalise the template |
+
+## Sending limits
+
+Transactional sending limits apply based on your SendWhale plan. Review your plan details for the maximum number of transactional sends per day or month. If you need higher limits, contact [support@gosendwhale.com](mailto:support@gosendwhale.com).
+
+## Event tracking
+
+SendWhale tracks the following events per transactional message:
+
+- **Delivery** — the message was accepted by the recipient's mail server
+- **Bounce** — the message could not be delivered
+- **Complaint** — the recipient marked the message as spam
+
+Review event data in your workspace to monitor deliverability and address recurring bounce or complaint issues promptly.

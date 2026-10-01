@@ -1,0 +1,82 @@
+---
+title: "Search, update, and manage your contacts"
+sidebarTitle: "Manage Contacts"
+description: "Search your contact list, update fields and tags, change contact status, export records as CSV, and permanently delete contacts from your workspace."
+---
+
+The Contacts page gives you a full view of everyone in your SendWhale workspace. You can search and filter your list, update individual contact records, change statuses, add tags, and export or delete contacts when needed.
+
+## Searching and filtering contacts
+
+Use the search bar and filter controls to find contacts quickly. You can filter by:
+
+- **Email address** — exact or partial match
+- **Name** — first or last name
+- **Tag** — any tag applied to the contact
+- **Status** — subscribed, unsubscribed, bounced, or suppressed
+- **Custom attribute** — any attribute value you have stored on a contact
+
+Combine multiple filters to narrow results further.
+
+## Contact fields
+
+Each contact record holds the following core fields:
+
+- **Email** — the contact's email address (required; used as the unique identifier)
+- **First name** and **Last name**
+- **Tags** — one or more labels for categorization
+- **Custom attributes** — additional data fields you define for your workspace
+- **Status** — the contact's current deliverability and consent state
+
+## Contact statuses
+
+<CardGroup cols={2}>
+  <Card title="Subscribed" icon="circle-check">
+    The contact has opted in and is eligible to receive marketing email from your workspace.
+  </Card>
+  <Card title="Unsubscribed" icon="circle-xmark">
+    The contact has opted out. SendWhale will not include them in marketing sends.
+  </Card>
+  <Card title="Bounced" icon="triangle-exclamation">
+    The contact's email address returned a hard bounce. They are excluded from future sends.
+  </Card>
+  <Card title="Suppressed" icon="ban">
+    The contact has been manually suppressed. They are excluded from all sends regardless of other settings.
+  </Card>
+</CardGroup>
+
+## Tags
+
+Tags let you categorize contacts for segmentation and filtering. From a contact record or in bulk from the contact list, you can:
+
+- **Add a tag** — attach one or more existing tags, or create a new tag inline
+- **Remove a tag** — detach a tag from the contact without deleting the tag itself
+
+Tags are reusable across your entire contact list and can be used as filter conditions in segments and automations.
+
+## Custom attributes
+
+Custom attributes let you store extra data fields on each contact — for example, a subscription tier, a preferred location, or a loyalty point balance. You define attribute keys at the workspace level and set values per contact. Custom attributes can be used in segment conditions and as merge fields in campaign content.
+
+## Changing a contact's status
+
+You can manually change a contact's status from the contact detail view. Common scenarios include:
+
+- Setting a contact to **Suppressed** after receiving an opt-out request outside of SendWhale
+- Re-subscribing a contact to **Subscribed** after you have collected and documented fresh consent
+
+<Warning>
+Do not re-subscribe a contact without their explicit new consent. Changing a status to Subscribed without a documented consent record may violate applicable email marketing regulations.
+</Warning>
+
+## Exporting contacts
+
+Download your contact list — or a filtered subset of it — as a CSV file. The export includes all core fields and custom attributes visible in your current filtered view. Use exports for backups, audits, or migrating data to another tool.
+
+## Deleting contacts
+
+Permanently delete a contact record from the contact detail view. Deletion is irreversible and removes the contact from all audiences and segment results. If a deleted contact re-submits a signup form, they will be created as a new record.
+
+<Note>
+Deleting a contact does not automatically remove them from historical campaign reports. Report data reflects the sends that already occurred.
+</Note>

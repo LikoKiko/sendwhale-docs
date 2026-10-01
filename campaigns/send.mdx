@@ -1,0 +1,70 @@
+---
+title: "Send a campaign to your audience"
+sidebarTitle: "Send Campaign"
+description: "Choose your recipient audience, review the suppression-filtered count, and confirm delivery — then track your campaign through its status transitions."
+---
+
+Sending a campaign delivers it to your chosen audience immediately or at a previously scheduled time. Before confirming, SendWhale gives you a final opportunity to review the recipient count, sender, subject, and content. Take this step seriously — once a campaign is sent, it cannot be recalled.
+
+## Before you send
+
+Complete the following steps before confirming delivery:
+
+1. **Run preflight checks** — resolve any blocking issues flagged by preflight. See [Preflight](/campaigns/preflight) for details.
+2. **Send a test email** — verify layout, links, and images in a real email client. See [Test Send](/campaigns/test).
+3. **Review the campaign** — double-check the subject line, preheader, sender name, sender email, and body content.
+
+## Steps to send
+
+<Steps>
+  <Step title="Complete preflight">
+    Open the send flow and confirm all preflight checks pass. Fix any blocking issues before proceeding.
+  </Step>
+  <Step title="Choose an audience or segment">
+    Select the audience or segment you want to receive this campaign. Suppressed, unsubscribed, and bounced contacts are excluded automatically — the recipient count reflects this.
+  </Step>
+  <Step title="Review the recipient count">
+    Check the number of recipients shown in the confirmation dialog. This is the number of contacts who will receive the campaign after suppression has been applied.
+  </Step>
+  <Step title="Confirm in the delivery dialog">
+    Review the sender, subject line, audience, and recipient count one final time. Click **Send** or **Confirm** to start delivery.
+  </Step>
+</Steps>
+
+## Campaign status transitions
+
+After you confirm, your campaign moves through the following statuses:
+
+<CardGroup cols={2}>
+  <Card title="Draft" icon="pen">
+    The campaign is being prepared and has not yet been submitted for delivery.
+  </Card>
+  <Card title="Queued" icon="hourglass">
+    SendWhale has accepted the campaign for delivery. It is waiting to begin processing.
+  </Card>
+  <Card title="Sending" icon="paper-plane">
+    The campaign is actively being delivered to your recipients.
+  </Card>
+  <Card title="Completed" icon="circle-check">
+    Delivery has finished. Open the campaign report to view performance metrics.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={1}>
+  <Card title="Failed" icon="circle-xmark">
+    Delivery could not be completed. Open the campaign report for details on what went wrong. Common causes include sender configuration issues or workspace send limit breaches.
+  </Card>
+</CardGroup>
+
+## Cancelling a queued campaign
+
+A campaign that is **Queued** but has not yet started sending may be cancellable. To attempt cancellation:
+
+1. Open the campaign from your campaign list
+2. Select **Cancel** if the option is available
+
+Cancellation is **not guaranteed** once the campaign has entered **Sending** status. If the option is not visible, delivery has already begun.
+
+<Warning>
+Sent campaigns cannot be recalled. Once a campaign reaches **Sending** status, emails are being dispatched to real recipients. Review the sender, audience, subject line, and content carefully in the confirmation dialog before clicking Send.
+</Warning>

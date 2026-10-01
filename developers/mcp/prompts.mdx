@@ -1,0 +1,58 @@
+---
+title: "Use SendWhale MCP prompts to guide AI workflows"
+sidebarTitle: "Prompts"
+description: "The draft_email and review_campaign MCP prompt templates load workspace context and guide your AI client through common SendWhale campaign workflows."
+---
+
+The SendWhale MCP server ships two prompt templates that guide your AI client through common campaign workflows. Selecting a prompt loads your workspace brand context and suggests a sequence of tool calls — it does not automatically execute writes, send emails, or schedule anything. You remain in control at every step.
+
+## `draft_email`
+
+The `draft_email` prompt guides your AI through drafting a new email campaign using your workspace's brand context, memories, and design instructions.
+
+**Arguments:**
+
+<ParamField query="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField query="goal" type="string" required>
+  A description of the campaign goal. Be as specific as you need — for example: `"announce our summer sale to loyal customers"` or `"re-engage subscribers who haven't opened an email in 60 days"`.
+</ParamField>
+<ParamField query="audience_id" type="string">
+  Optionally pre-select an audience for the campaign. If omitted, the AI will suggest one based on available audiences or prompt you to choose.
+</ParamField>
+
+**What it does:**
+
+1. Reads the workspace brand context resource (`sendwhale://workspaces/<WORKSPACE_ID>/`) to load your brand voice, memories, and instructions.
+2. Uses `list_templates` and `list_audiences` to understand available options.
+3. Guides the AI to produce a campaign using `create_email_template` and/or `create_campaign_draft`.
+4. Returns a draft ready for your review in SendWhale's UI.
+
+<Note>
+The `draft_email` prompt does not send or schedule anything. When the draft is ready, open it in SendWhale's UI to run preflight checks and confirm delivery.
+</Note>
+
+## `review_campaign`
+
+The `review_campaign` prompt guides your AI through reviewing an existing campaign draft before you send it in SendWhale.
+
+**Arguments:**
+
+<ParamField query="workspace_id" type="string" required>
+  Your SendWhale workspace ID.
+</ParamField>
+<ParamField query="campaign_id" type="string" required>
+  The ID of the campaign draft to review. Use `list_campaigns` or `get_campaign` to find this value.
+</ParamField>
+
+**What it does:**
+
+1. Calls `get_campaign` to fetch the full campaign, including subject, HTML content, sender details, and audience.
+2. Checks the campaign against your workspace brand instructions and memories.
+3. Surfaces feedback on subject line quality, content clarity, audience alignment, and any obvious issues.
+4. Suggests specific edits you can apply using `update_campaign_draft`.
+
+<Note>
+Prompts are workflow guides — they do not send or schedule campaigns. After reviewing and applying any suggested changes, open the campaign in SendWhale's authenticated UI to complete the final delivery step.
+</Note>

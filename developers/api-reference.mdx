@@ -1,0 +1,124 @@
+---
+title: "SendWhale API reference for campaigns and contacts"
+sidebarTitle: "API Reference"
+description: "Reference documentation for the SendWhale Brand Context API, with details on endpoints, request parameters, response fields, and error codes."
+---
+
+This page documents verified SendWhale API endpoints. All requests must include a valid `Authorization: Bearer <TOKEN>` header and be scoped to a workspace using your `workspace_id`. The backend enforces workspace data isolation through row-level security — a credential can only access data in workspaces it is authorized for.
+
+<Info>
+  This reference covers verified API endpoints from the SendWhale implementation. If you need an endpoint not listed here, contact [support@gosendwhale.com](mailto:support@gosendwhale.com).
+</Info>
+
+---
+
+## Brand Context API
+
+Returns the brand context for a workspace. Use this endpoint to read brand data programmatically for use in AI integrations, external tools, or custom workflows.
+
+**Method:** `POST`
+**URL:** `https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent`
+
+### Request headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <SENDWHALE_BRAND_KEY>` |
+| `Content-Type` | `application/json` |
+
+### Request body
+
+```json
+{
+  "action": "context",
+  "workspace_id": "<YOUR_WORKSPACE_ID>"
+}
+```
+
+<ParamField body="action" type="string" required>
+  The action to perform. Must be `"context"` to retrieve brand context data.
+</ParamField>
+
+<ParamField body="workspace_id" type="string" required>
+  The unique identifier of the workspace whose brand context you want to read. Find your Workspace ID in workspace **Settings → Agent Access**.
+</ParamField>
+
+### Response
+
+A successful request returns HTTP `200` with a JSON object containing your workspace's brand context.
+
+<ResponseField name="name" type="string">
+  The workspace or brand name.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  A short description of the brand.
+</ResponseField>
+
+<ResponseField name="voice" type="string">
+  Brand voice and tone guidelines used when generating copy.
+</ResponseField>
+
+<ResponseField name="colors" type="object">
+  Brand color values, including primary and secondary palette entries.
+</ResponseField>
+
+<ResponseField name="fonts" type="object">
+  Preferred font choices for headings and body text.
+</ResponseField>
+
+<ResponseField name="social" type="object">
+  Social media profile URLs associated with the workspace.
+</ResponseField>
+
+<ResponseField name="knowledge" type="array">
+  An array of brand knowledge base entries — facts, guidelines, and reference material stored in the workspace.
+</ResponseField>
+
+### Example request
+
+```bash
+curl -X POST https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent \
+  -H "Authorization: Bearer $SENDWHALE_BRAND_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"context","workspace_id":"$SENDWHALE_WORKSPACE_ID"}'
+```
+
+### Error codes
+
+| Status | Description |
+|---|---|
+| `401 Unauthorized` | The brand key is missing, invalid, or has expired. Revoke the key and create a replacement in **Settings → Agent Access**. |
+| `403 Forbidden` | The key does not have permission to access this workspace. Verify that the key was created within the correct workspace. |
+| `404 Not Found` | The workspace ID was not found. Double-check the value copied from **Settings → Agent Access**. |
+
+---
+
+## Transactional Email API
+
+<Info>
+  Transactional email API credentials and endpoints are configured separately from marketing credentials. Contact [support@gosendwhale.com](mailto:support@gosendwhale.com) to request access and receive your endpoint documentation.
+</Info>
+
+---
+
+## Campaign API
+
+<Info>
+  Campaign API operations are also available via the MCP server tools — including `list_campaigns`, `get_campaign`, `create_campaign_draft`, and `update_campaign_draft`. See the [MCP Tools](/developers/mcp/tools) page for full schemas. A REST endpoint reference for campaign operations is under development.
+</Info>
+
+---
+
+## Authentication reference
+
+All API requests require an `Authorization: Bearer <TOKEN>` header. The credential type you use depends on the endpoint:
+
+| Endpoint | Required credential |
+|---|---|
+| Brand Context API | Brand read key (90-day expiry) |
+| Campaign API | Workspace API key or user JWT |
+| Transactional Email API | Separate transactional credential — contact support |
+| MCP server | User JWT (via `SENDWHALE_ACCESS_TOKEN`) |
+
+For full details on obtaining and rotating each credential type, see the [Authentication](./authentication) page.

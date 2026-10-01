@@ -1,0 +1,92 @@
+---
+title: "Build with SendWhale: API and integration overview"
+sidebarTitle: "Overview"
+description: "Explore SendWhale's developer APIs, authentication modes, and integration points for building campaigns, transactional email, and AI-powered tools."
+---
+
+SendWhale exposes a set of developer APIs and integration surfaces that let you build on top of your email marketing workspace — from reading brand data in external tools to creating and sending campaigns programmatically. All API operations are scoped to a workspace, and the backend enforces row-level security (RLS) so a credential can only access data in workspaces you are authorized for.
+
+## What you can build
+
+<CardGroup cols={2}>
+  <Card title="Brand-aware AI tools" icon="brain">
+    Pull your workspace's brand context — voice, colors, fonts, and knowledge — into any AI client or external application using the Brand Context API.
+  </Card>
+  <Card title="Programmatic campaigns" icon="envelope">
+    Create, update, and manage campaigns and contact lists via the Campaign API or through the local MCP server from an AI client like Claude Desktop.
+  </Card>
+  <Card title="Triggered transactional email" icon="bolt">
+    Send event-driven emails — order confirmations, password resets, and notifications — using the Transactional Email API.
+  </Card>
+  <Card title="Event-driven workflows" icon="webhook">
+    Subscribe to campaign delivery events (sent, delivered, bounced, clicked, and more) and react to them in your own infrastructure using Webhooks.
+  </Card>
+</CardGroup>
+
+## Available API surfaces
+
+<Accordion title="Brand Context API">
+  The Brand Context API is a read-only endpoint that returns your workspace's brand data — including name, description, voice guidelines, colors, fonts, social links, and knowledge base entries. Use it to give AI clients accurate, up-to-date brand context without manual copy-pasting.
+
+  **Endpoint:** `POST https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent`
+
+  Authenticate with a brand read key scoped to your workspace. Brand read keys expire after 90 days and cannot send mail, read contact lists, or modify campaigns.
+</Accordion>
+
+<Accordion title="Campaign API">
+  The Campaign API lets you create and manage campaigns, templates, and audiences programmatically. Campaign operations are also available through the local MCP server tools, which provide the same functionality to AI clients that support the Model Context Protocol.
+</Accordion>
+
+<Accordion title="Transactional Email API">
+  The Transactional Email API lets you send triggered, one-to-one emails from your application — for example, account alerts, receipts, or onboarding sequences. Credentials and endpoints for transactional email are configured separately from marketing credentials.
+
+  <Info>Contact [support@gosendwhale.com](mailto:support@gosendwhale.com) to request access to the Transactional Email API.</Info>
+</Accordion>
+
+<Accordion title="Webhooks">
+  Webhooks push event notifications to your server when campaign delivery events occur. Subscribe to events like `campaign.sent`, `campaign.delivered`, `campaign.bounced`, `campaign.clicked`, and `campaign.unsubscribed` to trigger downstream workflows in real time.
+</Accordion>
+
+<Accordion title="Local MCP server">
+  The SendWhale MCP server runs as a local stdio server (powered by Deno) and connects AI clients — such as Claude Desktop — to your workspace via the Model Context Protocol. It exposes 11 tools, pre-built resources, and prompt templates that let an AI agent draft, review, and manage campaigns on your behalf.
+</Accordion>
+
+## Authentication modes
+
+SendWhale supports four credential types depending on which API surface you are using.
+
+| Credential type | Used for | Expiry |
+|---|---|---|
+| User JWT | Direct API calls authenticated as yourself | Session lifetime |
+| Workspace API key | Campaign and contact operations | Configurable |
+| Brand read key | Brand Context API (read-only) | 90 days |
+| MCP access token (user JWT) | Local MCP server | Session lifetime |
+
+All credentials must be passed as a `Bearer` token in the `Authorization` header. See the [Authentication](./authentication) page for full details on obtaining and rotating each credential type.
+
+## Workspace scope
+
+Every API request is scoped to a single workspace. Include your `workspace_id` in the request body or as a query parameter on every call. The backend uses Supabase row-level security to enforce data isolation — a credential cannot read or write data outside the workspaces it is authorized for, regardless of how the request is constructed.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="play" href="./quickstart">
+    Make your first API request in under five minutes using the Brand Context API.
+  </Card>
+  <Card title="Authentication" icon="key" href="./authentication">
+    Learn how to obtain, use, and rotate each credential type.
+  </Card>
+  <Card title="API Reference" icon="book" href="./api-reference">
+    Browse verified endpoints for campaigns, contacts, and brand operations.
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="./webhooks">
+    Set up webhook endpoints to receive real-time delivery event notifications.
+  </Card>
+  <Card title="Brand Context" icon="palette" href="./brand-context">
+    Read your workspace's brand data through the Brand Context API.
+  </Card>
+  <Card title="MCP Server" icon="robot" href="/developers/mcp/overview">
+    Connect an AI client to your workspace using the local MCP server.
+  </Card>
+</CardGroup>

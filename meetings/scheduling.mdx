@@ -1,0 +1,36 @@
+---
+title: "Set up meeting booking pages in SendWhale"
+sidebarTitle: "Scheduling"
+description: "Create public meeting booking pages at /book/:slug, define your availability, and manage upcoming bookings from the SendWhale Scheduler."
+---
+
+SendWhale lets you create public booking pages so contacts and visitors can schedule calls and meetings with you directly — no back-and-forth email required. Each booking page is powered by an availability configuration you define in your workspace.
+
+<Note>
+  Meeting scheduling (`/app/scheduler`, `/book/:slug`) is completely separate from campaign scheduling (the campaign calendar). They serve different purposes — one manages meeting bookings, the other manages when marketing emails send.
+</Note>
+
+## Setting your availability
+
+Open **Scheduler** from your workspace sidebar and create a new availability configuration. Define:
+
+- **Available hours** — the days of the week and the time windows when you can be booked
+- **Buffer time** — the gap to leave before and after each meeting so bookings do not stack back-to-back
+
+Save the configuration to generate a public booking page.
+
+## Your public booking page
+
+Each availability configuration produces a unique URL at `/book/:slug`. Visitors who open this URL can see your available time slots and pick one that works for them. They enter their name and email to confirm the booking.
+
+## Sharing your booking link
+
+Include your `/book/:slug` link wherever your contacts are most likely to see it:
+
+- As a call-to-action button in your email campaigns
+- On your website's contact or about page
+- In your email signature
+
+## Managing bookings
+
+View all upcoming and past bookings from the **Scheduler** section of your workspace at `/app/scheduler`. Use this view to monitor what is on your calendar, review past meeting history, and identify any bookings that need follow-up.

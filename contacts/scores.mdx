@@ -1,0 +1,57 @@
+---
+title: "Understand customer purchase scores (RFM)"
+sidebarTitle: "Scores"
+description: "The Scores page shows RFM purchase scores for your contacts — grouping customers by recency, frequency, and monetary value based on connected order data."
+---
+
+The Scores page, found at [/app/scores](https://www.gosendwhale.com/app/scores), shows purchase-based scores for the contacts in your workspace. These scores help you understand the relative value and engagement level of your customer base so you can prioritize your outreach and tailor your messaging.
+
+## How RFM scoring works
+
+SendWhale uses the **RFM model** to score contacts:
+
+<CardGroup cols={3}>
+  <Card title="Recency" icon="clock">
+    How recently the contact made a purchase. Contacts who bought recently score higher on recency.
+  </Card>
+  <Card title="Frequency" icon="arrows-repeat">
+    How often the contact purchases. Repeat buyers score higher on frequency.
+  </Card>
+  <Card title="Monetary" icon="circle-dollar">
+    How much the contact has spent in total. Higher lifetime spend produces a higher monetary score.
+  </Card>
+</CardGroup>
+
+Each contact receives a combined score across these three dimensions. SendWhale then groups contacts into named customer segments based on their scores.
+
+## Customer groups
+
+Contacts are automatically placed into groups based on their RFM profile. Examples of groups include:
+
+- **Champions** — bought recently, buy often, and spend the most
+- **Loyal** — purchase regularly and respond well to campaigns
+- **At Risk** — were previously active but have not purchased recently
+- **Lost** — have not purchased in a long time and score low across all dimensions
+
+The exact group names and thresholds are shown on the Scores page for your workspace.
+
+## Prerequisites
+
+RFM scores require order data linked to your contacts. To see scores, you must have:
+
+1. An e-commerce platform, CRM, or data integration connected to SendWhale that provides purchase history
+2. Order records associated with contact email addresses in your workspace
+
+If no order data is available, the Scores page displays an empty state with guidance on connecting a data source.
+
+## Data freshness
+
+Scores reflect the most recent order data available in your workspace. There may be a short delay after new orders arrive before scores are recalculated. If you have recently connected an integration or imported order data, allow time for scores to update.
+
+<Info>
+RFM scores are derived from real order data you have connected to SendWhale. They are not AI predictions, lead scores, or guarantees of future revenue. Score accuracy depends entirely on the completeness and accuracy of the order data you have integrated.
+</Info>
+
+## Amounts and currencies
+
+Monetary values on the Scores page are displayed in the currency provided by your connected data source. If your order data contains multiple currencies, review your integration settings to understand how values are normalized.

@@ -1,0 +1,51 @@
+---
+title: "Monitor automation execution and error logs"
+sidebarTitle: "Logs"
+description: "View per-contact execution history, understand execution statuses, investigate failed steps, and take corrective action from the automation logs."
+---
+
+The automation logs give you a detailed record of every workflow run — who entered the automation, which steps they completed, and whether any steps encountered errors. Use the logs to confirm your automations are working as expected and to diagnose problems when they are not.
+
+<Info>
+  Scheduled automation steps depend on configured background services. Seeing a workflow step in the builder does not confirm it executed — always verify execution in the logs.
+</Info>
+
+## What the logs show
+
+Each log entry represents an individual enrolled contact's journey through the workflow. Entries include:
+
+- **Contact identity** — the contact's email address or identifier
+- **Step-by-step status** — which steps completed, which are pending, and which failed
+- **Timestamps** — when each step was entered, executed, or skipped
+- **Overall execution status** — the current state of that contact's run
+
+## Execution statuses
+
+| Status | Meaning |
+|---|---|
+| **Pending** | The step is queued and has not yet executed |
+| **Running** | The step is actively being processed |
+| **Completed** | The step finished successfully |
+| **Failed** | The step encountered an error and did not complete |
+
+## Retries
+
+Some failed steps are automatically retried by SendWhale. Check the log entry for a failed step to see whether a retry has been attempted, how many times, and whether it succeeded on a subsequent attempt.
+
+## Investigating failed steps
+
+Click any failed log entry to open its detail view. The detail view shows:
+
+- The specific error message or failure reason
+- The step in the workflow where the failure occurred
+- Suggested corrective actions when available
+
+Common causes of failed steps include missing or incomplete email content, invalid recipient data (such as a malformed email address), and sender address verification issues.
+
+## Taking corrective action
+
+After identifying the cause of a failure:
+
+1. Fix the underlying issue — update the template, correct contact data, or complete sender verification as needed.
+2. If the workflow supports re-triggering for that contact, initiate a re-trigger from the log detail view.
+3. Monitor the logs after your fix to confirm subsequent runs complete successfully.

@@ -1,0 +1,53 @@
+---
+title: "Build an automation workflow step by step"
+sidebarTitle: "Build"
+description: "Configure triggers, conditions, delays, and email actions in the SendWhale workflow builder to create a complete automation."
+---
+
+The workflow builder guides you through assembling every piece of an automation before it goes live. Work through each step below to produce a complete, validated workflow ready for activation.
+
+<Note>
+  All steps must be complete and validated before you can activate an automation. The builder highlights any incomplete or misconfigured steps during validation.
+</Note>
+
+<Steps>
+  <Step title="Open Automations and create a new workflow">
+    Open **Automations** from the workspace sidebar and click **New Automation**. This opens a blank canvas in the workflow builder.
+  </Step>
+
+  <Step title="Name your automation">
+    Enter a clear, descriptive name for the automation. The name appears in your automations list and in execution logs, so choose something you will recognise at a glance.
+  </Step>
+
+  <Step title="Choose a trigger">
+    Select the event that starts contact enrollment. Common options include **Contact joins audience** and **Date-based** triggers. Open the trigger selector to see every trigger available on your plan and configure any required settings (such as which audience to watch).
+  </Step>
+
+  <Step title="Add conditions (optional)">
+    Insert one or more condition nodes after the trigger to filter which contacts proceed. Conditions evaluate contact attributes or prior behavior and branch the workflow accordingly — contacts who do not match a condition exit or follow an alternative path.
+  </Step>
+
+  <Step title="Add a delay (optional)">
+    Insert a **Wait** step to pause the workflow for a defined period before the next action. Specify the delay in minutes, hours, or days. Use delays to space out messages or wait until a meaningful moment (e.g., two days after sign-up).
+  </Step>
+
+  <Step title="Add a Send Email action">
+    Insert a **Send Email** action node. Choose an existing email template from your library or create a new one inline. Confirm the template covers the message you want to send at this point in the workflow.
+  </Step>
+
+  <Step title="Set the sender name and sender email">
+    Within the Send Email action, specify the **sender name** and **sender email address** contacts will see in their inbox. Use a verified sender address to avoid delivery issues.
+  </Step>
+
+  <Step title="Continue adding steps">
+    Keep building by adding further delays, conditions, and actions as your workflow requires. You can chain as many steps as needed — for example, a follow-up email three days later, a tag applied on click, or a field update at the end of the sequence.
+  </Step>
+
+  <Step title="Review the workflow in the builder">
+    Scroll through every node on the canvas and confirm each step has all required values filled in. Look for any node showing a warning indicator, which signals missing or invalid configuration.
+  </Step>
+
+  <Step title="Run validation">
+    Click **Validate** (or the equivalent builder action) to run a full check of the workflow. The builder highlights any incomplete steps in place. Resolve each flagged issue before proceeding to activation.
+  </Step>
+</Steps>

@@ -1,0 +1,59 @@
+---
+title: "Import contacts and build your audience"
+sidebarTitle: "Import Contacts"
+description: "Import contacts from a CSV or spreadsheet, map fields to SendWhale contact data, and assign them to an audience — all in a few steps."
+---
+
+Before you import, make sure you have an audience ready to receive your contacts. Giving your audience a clear name upfront — such as "Newsletter List June 2025" — makes it easier to reference during import and when building segments later.
+
+## Create an audience first
+
+Create a named audience in SendWhale before starting your import. You will assign imported contacts to this audience during the mapping step. An audience without a descriptive name is harder to manage once you have several lists.
+
+## Upload your file
+
+SendWhale accepts CSV files and common spreadsheet exports. You can add your file in two ways:
+
+- **Drag and drop** — drag your file onto the import area
+- **File picker** — click to browse and select your file
+
+Make sure your file has a header row — SendWhale uses those column names during field mapping.
+
+## Map your fields
+
+After uploading, SendWhale presents a field mapping interface. Match each column in your CSV to a SendWhale contact field:
+
+| CSV column example | SendWhale field |
+|--------------------|----------------|
+| `email` | Email (required) |
+| `first_name` | First name |
+| `last_name` | Last name |
+| `phone` | Phone |
+| Custom columns | Custom attributes |
+
+Email is the only required field. Columns you do not map are ignored.
+
+## Preview before confirming
+
+After mapping, SendWhale shows a preview of valid rows. Review this preview carefully — it reflects exactly what will be created or updated. If you see unexpected data, go back and adjust your field mapping before confirming.
+
+## Deduplication
+
+SendWhale detects duplicate email addresses in your import. When a duplicate is found, you choose how to handle it:
+
+- **Skip duplicates** — keep the existing contact record unchanged
+- **Update existing** — overwrite the existing contact's fields with the imported data
+
+Choose based on whether your import file contains fresher data than what is already in SendWhale.
+
+## Errors and invalid rows
+
+After the import completes, any rows that could not be imported are listed with a reason — for example, a missing email address or a malformed value. You can download the error list, fix the source file, and re-import the failed rows separately.
+
+<Warning>
+Importing a contact does **not** create marketing consent. You must record consent separately — either via a SendWhale signup form that includes consent language, or by ensuring your import list already holds documented, verifiable consent from each contact before you import them.
+</Warning>
+
+## Suppressed contacts
+
+If any email addresses in your import file have previously unsubscribed or hard-bounced in your SendWhale workspace, they are automatically kept in their suppressed state. The import does not override suppression — those contacts remain excluded from future sends.

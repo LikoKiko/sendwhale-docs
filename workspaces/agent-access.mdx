@@ -1,0 +1,71 @@
+---
+title: "Set up agent access and brand read keys"
+sidebarTitle: "Agent Access"
+description: "Find your workspace ID, create scoped brand read keys, download your brand guide, and configure credentials for the MCP server and Brand Context API."
+---
+
+Agent access lets external AI clients and developers read your workspace's brand context through the [Brand Context API](/developers/brand-context) or the [local MCP server](/developers/mcp/setup). Use this page to locate your workspace ID, create scoped brand read keys, download a portable brand guide, and manage all credentials associated with your workspace.
+
+## Finding your workspace ID
+
+Your workspace ID is displayed at the top of the **Agent Access** settings page. You need this value when configuring the MCP server (`SENDWHALE_WORKSPACE_ID`) and when making direct API calls against your workspace's brand context.
+
+## Downloading your brand guide
+
+Select **Download brand guide** to export a structured summary of your workspace's brand settings. This file is useful for sharing with external tools, developers, or AI clients that need a snapshot of your brand context without making live API calls.
+
+## Scoped brand read keys
+
+Brand read keys are API keys that grant read-only access to your workspace's brand context. They are intentionally limited in scope — they cannot send mail, read contact lists, modify campaigns, or write any data.
+
+### Creating a key
+
+1. Go to **Workspace Settings → Agent Access**.
+2. Select **Create brand read key**.
+3. Give the key a descriptive label so you can identify it later.
+4. Copy and store the key securely — it is shown only once.
+
+### Key expiration
+
+Brand read keys expire after **90 days**. Create a new key and update any tools or integrations that use the expiring key before the expiration date to avoid interruptions.
+
+### Revoking a key
+
+Select the key in the list and choose **Revoke**. The key stops working immediately. Any tool or service using that key will lose access until you provide a replacement.
+
+## Credentials reference
+
+| Key type | What it can do |
+|---|---|
+| **Brand read key** | Read workspace brand context only — no write access, no contact data |
+| **Campaign API key** | Interact with campaigns via API |
+| **MCP credentials** | Used by the local MCP server; set as `SENDWHALE_ACCESS_TOKEN` in your environment |
+| **SMTP credentials** | Send transactional email through SendWhale's SMTP gateway |
+
+## MCP environment variables
+
+When configuring the local MCP server, set these environment variables with the values from your agent access page:
+
+```bash
+SENDWHALE_SUPABASE_URL=<your supabase URL>
+SENDWHALE_PUBLISHABLE_KEY=<your publishable key>
+SENDWHALE_ACCESS_TOKEN=<your MCP access token>
+SENDWHALE_WORKSPACE_ID=<your workspace ID>
+SENDWHALE_APP_URL=https://www.gosendwhale.com
+```
+
+See the [MCP setup guide](/developers/mcp/setup) for full configuration instructions.
+
+## Brand Context API
+
+To read brand context programmatically, send an authenticated `POST` request to:
+
+```
+POST https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent
+```
+
+Include your brand read key in the request authorization header. See the [Brand Context API reference](/developers/brand-context) for request and response details.
+
+<Warning>
+  Never share API keys in public repositories, client-side code, or with untrusted parties. Rotate any key you believe has been exposed and revoke the compromised key immediately.
+</Warning>

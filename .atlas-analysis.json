@@ -1,13 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "projectType": "saas",
+  "projectName": "SendWhale",
+  "projectDescription": "SendWhale is an email marketing platform with Swell, an AI campaign assistant that helps businesses create, send, and analyze email campaigns from a branded workspace.",
   "theme": "almond",
-  "name": "SendWhale Docs",
-  "colors": {
-    "primary": "#168EC4",
-    "light": "#65CDEB",
-    "dark": "#168EC4"
-  },
-  "favicon": "/favicon.svg",
+  "primaryColor": "#168EC4",
+  "lightColor": "#65CDEB",
+  "darkColor": "#168EC4",
   "navigation": {
     "tabs": [
       {
@@ -146,20 +144,45 @@
       }
     ]
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "https://www.gosendwhale.com/support"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Open SendWhale",
-      "href": "https://www.gosendwhale.com/login"
-    }
-  },
-  "footer": {
-    "socials": {}
-  }
+  "keyFeatures": [
+    "Swell AI assistant for drafting and editing email campaigns",
+    "Brand workspace management with colors, fonts, logos, and voice",
+    "Contact import, segmentation, and RFM customer scoring",
+    "Drag-and-drop campaign editor with device preview and HTML view",
+    "Campaign scheduling, A/B testing, and delivery reports",
+    "Automation workflows with triggers, conditions, and delays",
+    "Hosted newsletter pages and signup forms with consent management",
+    "CRM with companies, deals, and pipeline stages",
+    "Meeting booking pages and live chat widget",
+    "Transactional email templates and API",
+    "Local stdio MCP server with 11 tools for AI client integration",
+    "Brand Context API for reading workspace brand data",
+    "Google OAuth and password authentication (12-character minimum)",
+    "Workspace roles: owner, admin, editor, viewer",
+    "Image library with upload and public URL support",
+    "Design references, brand memories, and persistent AI instructions",
+    "Campaign tags, preflight validation, and test sends",
+    "PayPal-based subscription billing"
+  ],
+  "publicApiSurface": [
+    "POST /functions/v1/brand-agent — Brand Context API (read workspace brand data)",
+    "MCP tool: list_campaigns",
+    "MCP tool: list_templates",
+    "MCP tool: list_audiences",
+    "MCP tool: get_campaign",
+    "MCP tool: create_audience",
+    "MCP tool: create_email_template",
+    "MCP tool: create_campaign_draft",
+    "MCP tool: update_campaign_draft",
+    "MCP tool: remember_brand_fact",
+    "MCP tool: update_brand_instructions",
+    "MCP tool: save_image_to_library",
+    "MCP resource: sendwhale://docs/workflows",
+    "MCP resource: sendwhale://docs/schemas",
+    "MCP resource: sendwhale://workspaces/<WORKSPACE_ID>/",
+    "MCP prompt: draft_email",
+    "MCP prompt: review_campaign",
+    "Transactional email API with template credentials",
+    "Webhook events for campaign delivery lifecycle"
+  ]
 }

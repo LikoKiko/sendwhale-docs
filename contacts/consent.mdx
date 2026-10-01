@@ -1,0 +1,71 @@
+---
+title: "Manage email consent and suppression"
+sidebarTitle: "Consent"
+description: "Track opt-in consent, handle unsubscribe requests, manage suppression lists, and keep your SendWhale workspace compliant with your email marketing obligations."
+---
+
+Consent is the foundation of responsible email marketing. SendWhale provides tools to collect verifiable opt-ins, automatically suppress contacts who opt out, and give you manual controls to handle edge cases — but the responsibility for maintaining valid consent records rests with you.
+
+## How consent works in SendWhale
+
+Each contact record in your workspace has a status that reflects their consent state. A contact with **Subscribed** status has opted in and is eligible to receive marketing email. Contacts with any other status — Unsubscribed, Bounced, or Suppressed — are excluded from marketing sends.
+
+SendWhale does not infer or assume consent. Importing a contact, adding them to an audience, or connecting an integration does not automatically grant marketing consent.
+
+## Collecting consent with signup forms
+
+Signup forms are the primary mechanism for collecting verifiable, timestamped consent in SendWhale. When you build a form:
+
+- Include clear consent language that tells subscribers what they are signing up to receive
+- Add a link to your privacy policy
+- Avoid pre-checking consent checkboxes — require an affirmative action
+
+Contacts who submit a signup form with appropriate consent language have a clear opt-in record tied to the form submission.
+
+## Unsubscribe behavior
+
+Every marketing email sent through SendWhale includes an unsubscribe link. When a recipient clicks that link:
+
+1. Their status is immediately changed to **Unsubscribed**
+2. They are excluded from all future marketing sends
+3. This change is automatic and does not require any action from you
+
+You cannot remove or hide the unsubscribe link from outgoing emails.
+
+## Suppression checks before every send
+
+Before SendWhale delivers any campaign, it runs a suppression check against your full list of:
+
+- Unsubscribed contacts
+- Hard-bounced contacts
+- Manually suppressed contacts
+
+Contacts in any of these states are excluded from the send, even if they appear in the selected audience or segment.
+
+## Handling opt-out requests received outside SendWhale
+
+If a contact requests removal via email, phone, or any channel outside of SendWhale, you must manually update their record:
+
+<Steps>
+  <Step title="Find the contact">
+    Search for the contact on the Contacts page by email address.
+  </Step>
+  <Step title="Update their status">
+    Change their status to **Unsubscribed** or **Suppressed** depending on the nature of the request.
+  </Step>
+  <Step title="Confirm the change">
+    Verify the status update has saved before responding to the contact.
+  </Step>
+</Steps>
+
+## SMS consent
+
+Email consent and SMS consent are separate. A contact who has opted in to receive marketing email from you has **not** consented to receive SMS messages. Do not use email consent records to authorize SMS sends.
+
+<Warning>
+Do not re-subscribe a contact without their explicit new consent. Do not import and send to contact lists without verified, documented opt-in records for each address. Doing so may expose you to regulatory penalties under laws such as CAN-SPAM, GDPR, or CASL.
+</Warning>
+
+<Info>
+This page describes SendWhale's consent management features. It is not legal advice. Email marketing regulations vary by jurisdiction and change over time. Consult your legal counsel to ensure your consent practices meet the requirements that apply to your business.
+</Info>

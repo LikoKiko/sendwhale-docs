@@ -1,0 +1,33 @@
+---
+title: "Activate, pause, and resume automations"
+sidebarTitle: "Activate"
+description: "Learn how to activate a validated automation, pause enrollment, resume it, and understand what happens to mid-workflow contacts."
+---
+
+Once your automation passes validation in the workflow builder, you can move it through its full lifecycle — activating it to begin enrolling contacts, pausing it when you need to make changes, and resuming it when you are ready to continue.
+
+<Warning>
+  Activating an automation immediately begins enrolling matching contacts. Test your workflow with a small test audience before activating it for your full contact list.
+</Warning>
+
+## Why incomplete automations cannot activate
+
+Every step in the workflow must have a valid trigger, at least one action, and all required content (such as a chosen email template and a verified sender address) before you can activate. If any step is incomplete, the **Activate** button remains unavailable and the builder highlights the issues for you to resolve.
+
+## Activating an automation
+
+After the workflow passes validation, click **Activate**. The automation status changes to **Active** and SendWhale immediately begins evaluating contacts against the trigger condition and enrolling those who match.
+
+## Pausing an automation
+
+Click **Pause** on an active automation to temporarily stop enrolling new contacts. Use pausing when you need to make edits or investigate unexpected behavior without fully deactivating the workflow.
+
+**What happens to currently enrolled contacts:** contacts who are already mid-workflow continue progressing through their current step while the automation is paused. New contacts do not enroll until you resume.
+
+## Resuming a paused automation
+
+Click **Resume** to restart contact enrollment. Contacts who match the trigger from the moment of resumption onward will enter the workflow; contacts who matched the trigger while the automation was paused are not retroactively enrolled.
+
+## Deactivating an automation
+
+Deactivating stops the automation entirely. Existing enrolled contacts may complete their remaining steps or be dropped from the workflow depending on the step they are currently in — verify the expected behavior in the builder before deactivating a workflow that has active enrolled contacts.

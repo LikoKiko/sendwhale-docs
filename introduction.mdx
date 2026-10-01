@@ -1,0 +1,80 @@
+---
+title: "SendWhale: AI-powered email marketing for your brand"
+sidebarTitle: "Introduction"
+description: "SendWhale is an AI-powered email marketing platform in private beta. Build campaigns with Swell, your AI assistant — designed for creators, marketers, and developers."
+---
+
+SendWhale is an email marketing platform built around Swell, an AI campaign assistant that helps you research your brand, draft campaigns, and iterate on content — all from a single workspace. Whether you're a solo creator or part of a full marketing team, SendWhale is designed to get your first email out the door quickly and keep your campaigns consistent with your brand over time. SendWhale is currently in **private beta**: the public homepage at [gosendwhale.com](https://www.gosendwhale.com) is a waitlist, but accounts can be created directly at [/signup](https://www.gosendwhale.com/signup) or [/register](https://www.gosendwhale.com/register).
+
+## Who SendWhale is for
+
+<CardGroup cols={2}>
+  <Card title="Business owners & creators" icon="store">
+    Launch branded email campaigns without needing a dedicated marketing team or deep technical knowledge.
+  </Card>
+  <Card title="Marketers" icon="bullhorn">
+    Manage audiences, build segments, schedule campaigns, and analyze results — all in one place.
+  </Card>
+  <Card title="Designers & brand managers" icon="paintbrush">
+    Upload logos, define color palettes, and set brand voice so every campaign stays on-brand automatically.
+  </Card>
+  <Card title="Agencies & developers" icon="code">
+    Manage multiple client workspaces and integrate SendWhale into your own tooling via the MCP server and Brand Context API.
+  </Card>
+</CardGroup>
+
+## Core workflow
+
+The typical SendWhale workflow moves through five stages:
+
+1. **Brand setup** — Define your brand identity (name, colors, logo, voice) so Swell has the context it needs to write on-brand copy.
+2. **Contacts** — Import consented contacts and organize them into audiences and segments.
+3. **Campaign drafting with Swell** — Describe your campaign goal in plain language; Swell produces a full draft you can refine interactively.
+4. **Send** — Run preflight checks, choose your recipients, and send immediately or schedule for later.
+5. **Analyze** — Review campaign reports to understand engagement and inform your next send.
+
+## Key concepts
+
+<Accordion title="Workspace">
+  A workspace is your top-level account container. It holds your brand settings, contacts, campaigns, templates, and integrations. Every SendWhale account belongs to at least one workspace. Workspaces have four roles: **owner**, **admin**, **editor**, and **viewer**.
+</Accordion>
+
+<Accordion title="Audience">
+  An audience is a named list of contacts. You can create multiple audiences to organize contacts by source, product line, or any other grouping. Audiences are the recipients you select when sending a campaign.
+</Accordion>
+
+<Accordion title="Campaign">
+  A campaign is a single email send — it pairs a template (the visual design and content) with an audience (the recipients), a subject line, a sender identity, and a scheduled or immediate send time.
+</Accordion>
+
+<Accordion title="Template">
+  A template is a reusable email design. Templates define the layout, imagery, typography, and placeholder copy. A campaign uses one template as its starting point.
+</Accordion>
+
+<Accordion title="Automation">
+  Automations are triggered email sequences — for example, a welcome series that fires when a new contact joins an audience. Automation capabilities are part of SendWhale's roadmap.
+</Accordion>
+
+<Accordion title="Hosted page">
+  A hosted page is a public URL SendWhale manages on your behalf — used for signup forms, chat widgets, meeting booking links, and content pages. Hosted pages live at `/n/:slug`, `/form/:publicId`, `/chat/:slug`, and `/book/:slug`.
+</Accordion>
+
+<Accordion title="Swell">
+  Swell is SendWhale's built-in AI campaign assistant. Swell reads your brand context, drafts email copy, suggests subject lines and preheaders, and helps you iterate on content through a conversational interface. Swell is available inside the campaign editor and via the SendWhale MCP server for AI coding environments.
+</Accordion>
+
+<Accordion title="Integration">
+  Integrations connect SendWhale to external tools — such as your e-commerce store, CRM, or AI development environment. The Brand Context API and MCP server are the primary developer-facing integrations available today.
+</Accordion>
+
+## Beta availability
+
+<Info>
+  SendWhale is in **private beta**. Features marked 🔜 in the documentation are planned but not yet available. Features marked ⚙️ require additional provider or account configuration before use.
+</Info>
+
+The [changelog](https://www.gosendwhale.com/changelog) lists what's new in each release. If you run into issues or have feedback, visit [/support](https://www.gosendwhale.com/support) or email [support@gosendwhale.com](mailto:support@gosendwhale.com).
+
+## Next step
+
+Ready to send your first campaign? The [Quickstart](./quickstart) walks you through registration, brand setup, and your first send in a single guided flow.

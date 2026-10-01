@@ -1,0 +1,81 @@
+---
+title: "Make your first SendWhale API request"
+sidebarTitle: "Quickstart"
+description: "Get your workspace ID and brand read key, then make a safe read request to the Brand Context API in under five minutes."
+---
+
+The fastest way to explore the SendWhale API is to make a read request against the Brand Context API. This endpoint returns your workspace's brand data — name, voice, colors, fonts, and more — and requires only a brand read key, which is safe to create and rotate without affecting any live campaigns or contacts.
+
+<Note>
+  This quickstart uses the Brand Context API because it is a read-only, low-risk operation. Brand read keys cannot send mail, read contact lists, or modify campaigns. They are a safe starting point for exploring SendWhale's developer surface.
+</Note>
+
+<Steps>
+  <Step title="Get your Workspace ID">
+    Your Workspace ID is required on every API request. To find it:
+
+    1. Sign in to [SendWhale](https://www.gosendwhale.com/login).
+    2. Open your workspace **Settings**.
+    3. Navigate to the **Agent Access** tab.
+    4. Copy the **Workspace ID** displayed at the top of the page.
+
+    Your Workspace ID looks similar to `ws_abc123`. Keep it handy — you will use it in every API call.
+  </Step>
+
+  <Step title="Create a brand read key">
+    Brand read keys authenticate requests to the Brand Context API. To create one:
+
+    1. In workspace **Settings → Agent Access**, click **Create Key**.
+    2. Give the key a descriptive name (for example, `my-first-api-test`).
+    3. Click **Create** and copy the key immediately — it is only shown once.
+
+    <Warning>
+      Never expose your brand key in client-side code, public repositories, or anywhere else outside a secure server-side environment. If a key is compromised, revoke it immediately from **Settings → Agent Access** and create a replacement.
+    </Warning>
+
+    Brand read keys expire after **90 days**. Set a reminder to revoke and replace the key before it expires to avoid disruption to any integrations that depend on it.
+  </Step>
+
+  <Step title="Make a read request to the Brand Context API">
+    With your Workspace ID and brand read key ready, run the following command in your terminal. Replace `<YOUR_BRAND_KEY>` and `<YOUR_WORKSPACE_ID>` with the values you copied in the previous steps.
+
+    ```bash
+    curl -X POST https://fvtvyejucthdmnpfkrnl.supabase.co/functions/v1/brand-agent \
+      -H "Authorization: Bearer <YOUR_BRAND_KEY>" \
+      -H "Content-Type: application/json" \
+      -d '{"action":"context","workspace_id":"<YOUR_WORKSPACE_ID>"}'
+    ```
+
+    A successful request returns an HTTP `200` response with a JSON body. Common errors:
+
+    | Status | Meaning |
+    |---|---|
+    | `401 Unauthorized` | Your brand key is invalid or has expired. |
+    | `403 Forbidden` | Your key does not have access to this workspace. |
+    | `404 Not Found` | The workspace ID was not found. |
+  </Step>
+
+  <Step title="Review the response">
+    The response body contains your workspace's brand context object. It includes fields such as:
+
+    - **name** — your workspace or brand name
+    - **description** — a short description of your brand
+    - **voice** — brand voice and tone guidelines
+    - **colors** — primary and secondary brand colors
+    - **fonts** — preferred font choices
+    - **social** — social media profile links
+    - **knowledge** — brand knowledge base entries
+
+    This is the same brand context that Swell, SendWhale's AI campaign assistant, uses when drafting emails on your behalf. By reading it through the API, you can give any external AI tool or integration accurate, up-to-date brand information.
+  </Step>
+
+  <Step title="Use this data in your integrations">
+    Now that you can read brand context programmatically, you can:
+
+    - Feed it as a system prompt to an AI model in your own application.
+    - Cache it server-side and refresh it before your 90-day key expires.
+    - Use the [MCP server](/developers/mcp/overview) to give an AI client like Claude Desktop direct, live access to this data alongside campaign management tools.
+
+    To go further, explore the [API Reference](./api-reference) for campaign and contact operations, or set up [Webhooks](./webhooks) to receive real-time delivery event notifications.
+  </Step>
+</Steps>
