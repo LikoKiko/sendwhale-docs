@@ -1,5 +1,5 @@
 ---
-title: "MCP server permissions and workspace access"
+title: "SendWhale MCP Server Permissions and Workspace Roles"
 sidebarTitle: "Permissions"
 description: "How the SendWhale MCP server validates authentication, enforces workspace membership, and applies per-tool role requirements for every operation."
 ---
@@ -22,7 +22,7 @@ Every tool call and resource read repeats the authentication check against your 
 
 - If your JWT expires while the server is running, the next operation will return an authentication error immediately.
 - If your account is removed from the workspace between calls, the next operation will return a permission error.
-- Row-level security (RLS) is enforced at the database level — the server cannot access data outside workspaces you are authorised to use, regardless of what is passed as input.
+- Access is enforced server-side — the server cannot access data outside workspaces you are authorised to use, regardless of what is passed as input.
 
 ## Role requirements by operation
 

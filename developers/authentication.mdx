@@ -1,10 +1,10 @@
 ---
-title: "Authenticate with the SendWhale API"
+title: "SendWhale API Authentication: Keys, JWTs, and Tokens"
 sidebarTitle: "Authentication"
 description: "Learn about SendWhale's authentication modes — user JWTs, workspace API keys, brand read keys, and MCP access tokens — and how to use each one."
 ---
 
-SendWhale supports multiple authentication modes depending on which API surface you are calling. Every credential is passed as a Bearer token in the `Authorization` header, and every request must be scoped to a specific workspace. The backend uses Supabase row-level security (RLS) to enforce data isolation at the database level — a credential can only access data in workspaces it is authorized for, regardless of how a request is formed.
+SendWhale supports multiple authentication modes depending on which API surface you are calling. Every credential is passed as a Bearer token in the `Authorization` header, and every request must be scoped to a specific workspace. Your data is isolated to your workspace — a credential can only access data in workspaces it is authorized for, regardless of how a request is formed.
 
 ## Credential types
 
@@ -16,7 +16,7 @@ SendWhale supports multiple authentication modes depending on which API surface 
 | MCP access token (user JWT) | Local MCP server | Obtained via sign-in flow | Session lifetime |
 
 <Warning>
-  Never use a service-role key in client-side code, documentation examples, or any context where it could be exposed publicly. Always use the lowest-permission credential that your use case requires.
+  Always use the lowest-permission credential that your use case requires. Never expose credentials in client-side code, public repositories, or log output.
 </Warning>
 
 ## How to pass credentials
@@ -91,6 +91,6 @@ Rotate credentials proactively rather than reactively. If any credential is expo
 
 ## Permissions and workspace scope
 
-All API operations are scoped to a single workspace. A credential issued in one workspace cannot access data in another workspace, even if you are a member of both. Supabase RLS enforces this isolation at the database level — it is not just a convention in the API layer.
+All API operations are scoped to a single workspace. A credential issued in one workspace cannot access data in another workspace, even if you are a member of both. This isolation is enforced on every request — it is not just a convention in the API layer.
 
 Each workspace role (owner, admin, editor, viewer) controls which actions a user JWT or MCP access token can perform. Workspace API keys and brand read keys carry their own fixed permission scopes that are independent of workspace roles.

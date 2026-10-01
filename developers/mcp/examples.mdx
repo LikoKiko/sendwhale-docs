@@ -1,5 +1,5 @@
 ---
-title: "SendWhale MCP server workflow examples"
+title: "SendWhale MCP Examples: End-to-End Campaign Workflows"
 sidebarTitle: "Examples"
 description: "End-to-end MCP workflow examples: reading brand context, listing resources, creating templates and campaign drafts, and handing off to SendWhale's UI."
 ---
@@ -53,11 +53,7 @@ If you do not have a suitable template yet, create one now. Pass the full HTML c
 }
 ```
 
-The response includes the new template's ID and `updated_at`. You can also read the template HTML back through the resource URI:
-
-```
-read_resource("sendwhale://workspaces/ws_abc123/templates/tmpl_xyz789/html")
-```
+The response includes the new template's ID and `updated_at`. Save the template ID — you will need it to attach the template to a campaign draft.
 
 ## Example 4: Create a campaign draft
 

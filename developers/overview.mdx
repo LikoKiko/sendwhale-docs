@@ -4,7 +4,7 @@ sidebarTitle: "Overview"
 description: "Explore SendWhale's developer APIs, authentication modes, and integration points for building campaigns, transactional email, and AI-powered tools."
 ---
 
-SendWhale exposes a set of developer APIs and integration surfaces that let you build on top of your email marketing workspace — from reading brand data in external tools to creating and sending campaigns programmatically. All API operations are scoped to a workspace, and the backend enforces row-level security (RLS) so a credential can only access data in workspaces you are authorized for.
+SendWhale exposes a set of developer APIs and integration surfaces that let you build on top of your email marketing workspace — from reading brand data in external tools to creating and sending campaigns programmatically. All API operations are scoped to a workspace, and a credential can only access data in workspaces you are authorized for.
 
 ## What you can build
 
@@ -62,28 +62,28 @@ SendWhale supports four credential types depending on which API surface you are 
 | Brand read key | Brand Context API (read-only) | 90 days |
 | MCP access token (user JWT) | Local MCP server | Session lifetime |
 
-All credentials must be passed as a `Bearer` token in the `Authorization` header. See the [Authentication](./authentication) page for full details on obtaining and rotating each credential type.
+All credentials must be passed as a `Bearer` token in the `Authorization` header. See the [Authentication](/developers/authentication) page for full details on obtaining and rotating each credential type.
 
 ## Workspace scope
 
-Every API request is scoped to a single workspace. Include your `workspace_id` in the request body or as a query parameter on every call. The backend uses Supabase row-level security to enforce data isolation — a credential cannot read or write data outside the workspaces it is authorized for, regardless of how the request is constructed.
+Every API request is scoped to a single workspace. Include your `workspace_id` in the request body or as a query parameter on every call. Your data is isolated to your workspace — a credential cannot read or write data outside the workspaces it is authorized for, regardless of how the request is constructed.
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="play" href="./quickstart">
+  <Card title="Quickstart" icon="play" href="/developers/quickstart">
     Make your first API request in under five minutes using the Brand Context API.
   </Card>
-  <Card title="Authentication" icon="key" href="./authentication">
+  <Card title="Authentication" icon="key" href="/developers/authentication">
     Learn how to obtain, use, and rotate each credential type.
   </Card>
-  <Card title="API Reference" icon="book" href="./api-reference">
+  <Card title="API Reference" icon="book" href="/developers/api-reference">
     Browse verified endpoints for campaigns, contacts, and brand operations.
   </Card>
-  <Card title="Webhooks" icon="webhook" href="./webhooks">
+  <Card title="Webhooks" icon="webhook" href="/developers/webhooks">
     Set up webhook endpoints to receive real-time delivery event notifications.
   </Card>
-  <Card title="Brand Context" icon="palette" href="./brand-context">
+  <Card title="Brand Context" icon="palette" href="/developers/brand-context">
     Read your workspace's brand data through the Brand Context API.
   </Card>
   <Card title="MCP Server" icon="robot" href="/developers/mcp/overview">

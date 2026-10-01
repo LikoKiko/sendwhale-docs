@@ -1,7 +1,7 @@
 ---
 title: "Set up the SendWhale MCP server with your AI client"
 sidebarTitle: "Setup"
-description: "Install Deno, set your environment variables, and connect the SendWhale local stdio MCP server to Claude Desktop, Cursor, VS Code, or any compatible client."
+description: "Install Deno, configure environment variables, and add the SendWhale MCP server to Claude Desktop, Cursor, VS Code, or any stdio-compatible MCP client."
 ---
 
 The SendWhale MCP server runs as a local Deno process on your machine. Your AI client launches it directly — there is nothing to deploy or host. Follow the steps below to get the server running and connected to your preferred AI client.
@@ -9,7 +9,7 @@ The SendWhale MCP server runs as a local Deno process on your machine. Your AI c
 <Steps>
 
 <Step title="Install Deno">
-Check `mcp/deno.json` for the required Deno version, then install it:
+Install Deno on your machine:
 
 ```bash
 # macOS / Linux
@@ -25,11 +25,11 @@ deno --version
 ```
 </Step>
 
-<Step title="Clone or download the SendWhale MCP server">
-Clone the repository or download the source archive from SendWhale. Once you have the files, navigate to the `mcp/` directory — this is where the entry point (`stdio.ts`), config (`deno.json`), and locked dependencies (`deno.lock`) live.
+<Step title="Download the SendWhale MCP server">
+Download the SendWhale MCP server package from SendWhale and extract it to a location on your machine. Note the absolute path to the `mcp/` directory — you will need the full path to `mcp/stdio.ts` when configuring your AI client.
 
 ```bash
-cd /path/to/sendwhale/mcp
+cd /absolute/path/to/mcp
 ```
 </Step>
 
@@ -60,7 +60,7 @@ SENDWHALE_ACCESS_TOKEN must be a valid user JWT from an active SendWhale session
 </Step>
 
 <Step title="Configure your MCP client">
-Use the example config at `mcp/clients/stdio.example.json` as a starting point. Below is a Claude Desktop example — adapt the structure to match your client's config format.
+Below is a Claude Desktop example — adapt the structure to match your client's config format.
 
 ```json
 {

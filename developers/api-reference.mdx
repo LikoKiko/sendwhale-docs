@@ -4,7 +4,7 @@ sidebarTitle: "API Reference"
 description: "Reference documentation for the SendWhale Brand Context API, with details on endpoints, request parameters, response fields, and error codes."
 ---
 
-This page documents verified SendWhale API endpoints. All requests must include a valid `Authorization: Bearer <TOKEN>` header and be scoped to a workspace using your `workspace_id`. The backend enforces workspace data isolation through row-level security — a credential can only access data in workspaces it is authorized for.
+This page documents verified SendWhale API endpoints. All requests must include a valid `Authorization: Bearer <TOKEN>` header and be scoped to a workspace using your `workspace_id`. Your data is isolated to your workspace — a credential can only access data in workspaces it is authorized for.
 
 <Info>
   This reference covers verified API endpoints from the SendWhale implementation. If you need an endpoint not listed here, contact [support@gosendwhale.com](mailto:support@gosendwhale.com).
@@ -121,4 +121,4 @@ All API requests require an `Authorization: Bearer <TOKEN>` header. The credenti
 | Transactional Email API | Separate transactional credential — contact support |
 | MCP server | User JWT (via `SENDWHALE_ACCESS_TOKEN`) |
 
-For full details on obtaining and rotating each credential type, see the [Authentication](./authentication) page.
+For full details on obtaining and rotating each credential type, see the [Authentication](/developers/authentication) page.
